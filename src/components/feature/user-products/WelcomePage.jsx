@@ -17,7 +17,7 @@ export default function WelcomePage() {
 
             {/* Hero Section with Gradient */}
       <section 
-        className="relative py-24 md:py-36 overflow-hidden"
+        className="relative py-24 md:py-36 overflow-hidden min-h-[80vh]"
         style={{ 
           background: 'linear-gradient(135deg, rgba(15,23,42,1) 0%, rgba(39,49,89,1) 50%, rgba(15,23,42,1) 100%)',
           backgroundSize: '200% 200%',

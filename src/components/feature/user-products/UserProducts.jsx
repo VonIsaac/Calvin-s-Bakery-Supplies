@@ -12,7 +12,7 @@ export default function UserProduct() {
         <img src="src/assets/logo.png" alt="logo" className='w-[180px]'/>
       </Header>
       <div>
-        <section className="bg-white dark:bg-gray-900 min-h-[70vh] flex items-center"> {/* Changed to min-h-[70vh] and flex */}
+        <section className="bg-white dark:bg-gray-900 min-h-[75vh] flex items-center"> {/* Changed to min-h-[70vh] and flex */}
             <div className="grid max-w-screen-xl px-4 py-16 mx-auto lg:gap-8 xl:gap-0 lg:py-24 lg:grid-cols-12">
               <div className="mr-auto place-self-center lg:col-span-7">
                 <h1 className="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-white">
@@ -35,7 +35,7 @@ export default function UserProduct() {
                 </div>
               </div>
               <div className="hidden lg:mt-0 lg:col-span-5 lg:flex lg:items-center"> {/* Added lg:items-center */}
-                <img src="src\assets\undraw_bear-market_dhi3.svg" alt="mockup" className="w-full" />
+                <img src="src\assets\ecomerce.svg" alt="mockup" className="w-full" />
               </div>                
             </div>
         </section>   
