@@ -8,17 +8,18 @@ import logo from '../../../assets/logo.png';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Link } from 'react-router-dom';
 import { Box, Button, Typography } from '@mui/material';
+import Loading from "../../UI/Loading";
 
 export default function Category() {
-  const { category } = useParams();
+  const { category } = useParams(); //  use this to acces routes
 
   const { data, isLoading } = useQuery({
     queryKey: ["products", category],
     queryFn: ({ signal }) => getProductsByCategory(category, { signal }),
   });
 
-  if (isLoading) {
-    return <p>Loading....</p>;
+  if (isLoading) { // when redirect or reloading the page the thers a loading style
+    return <Loading />
   }
 
   return (

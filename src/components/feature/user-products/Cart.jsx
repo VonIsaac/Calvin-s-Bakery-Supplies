@@ -8,6 +8,8 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Link } from 'react-router-dom';
+import Checkout from './Checkout';
+
 
 // Dummy cart data
 const cartItems = [
@@ -127,19 +129,7 @@ export default function Cart() {
             <Typography variant="h6" sx={{ fontWeight: 600 }}>₱{total.toLocaleString()}</Typography>
           </Box>
           
-          <Button 
-            variant="contained" 
-            fullWidth 
-            size="large"
-            sx={{
-              backgroundColor: 'oklch(0.279 0.041 260.031)',
-              '&:hover': { backgroundColor: 'oklch(0.279 0.041 260.031 / 0.8)' },
-              py: 1.5,
-              fontWeight: 600
-            }}
-          >
-            CHECKOUT ALL
-          </Button>
+          <Checkout />
         </Box>
       </Box>
       

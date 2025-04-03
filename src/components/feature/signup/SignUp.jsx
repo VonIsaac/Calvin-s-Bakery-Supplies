@@ -58,7 +58,7 @@ export default function SignUp() {
         <>
           
         
-            <div className="flex flex-col justify-center items-center  border-2 bg-[url(/src/assets/no-log-in.png)] bg-cover bg-no-repeat bg-center h-screen">
+            <div className="flex flex-col justify-center items-center  border-2 bg-[url(/src/assets/bg-form.png)] bg-cover bg-no-repeat bg-center h-screen">
                 {/* <ResponsiveDialog  onClose={handleCloseDialog} />*/}
                     <form onSubmit={handleSignupCreds} className="border-2 rounded-2xl border-none h-[400px] w-[450px] bg-white/15 backdrop-blur-lg shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]">
                         <h1 className="text-center text-3xl my-6 font-bold tracking-wide uppercase">Sign up</h1>

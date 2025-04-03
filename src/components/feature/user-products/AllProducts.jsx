@@ -6,14 +6,19 @@ import { useQuery } from '@tanstack/react-query';
 import { getProducts } from '../../../utils/http';
 import { Box, Button, Typography } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Loading from '../../UI/Loading';
 import { Link } from 'react-router-dom';
 
 export default function AllProducts() {
 
-    const {data} = useQuery({ // use useQuery to get the data from backend
+    const {data, isLoading} = useQuery({ // use useQuery to get the data from backend
         queryKey: ['products'],
         queryFn: ({signal}) => getProducts({signal})
-    })
+    });
+
+    if(isLoading){ // when redirect or reloading the page the thers a loading style
+      return <Loading />
+    }
 
   return (
    <>

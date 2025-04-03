@@ -7,13 +7,15 @@ import CashierModal from './CreateCashier';
 import { useState } from 'react';
 import SideBar from "./SideBar";
 
+
 export default function Navar() {
      const [open, setOpen] = useState(false)
       const handleOpen = () => setOpen(true)
       const handleClose = () => setOpen(false)
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar  position="static" sx={{  backgroundColor: 'oklch(0.279 0.041 260.031)', mb: 3, borderRadius: 1, boxShadow: 'none', border: '1px solid rgba(255, 255, 255, 0.12)'}}>
+
         <Toolbar>
          
             <SideBar />

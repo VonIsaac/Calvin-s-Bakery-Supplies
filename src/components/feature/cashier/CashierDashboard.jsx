@@ -16,22 +16,14 @@ import CloseIcon from '@mui/icons-material/Close';
 
 // Sample data - replace with your actual data
 const customers = [
-  { id: 1, name: 'John Doe', number: '09123456789',  },
-  { id: 2, name: 'Jane Smith', number: '09987654321',  },
-  { id: 3, name: 'Robert Johnson', number: '09876543210',  },
-  { id: 4, name: 'Emily Davis', number: '09765432109',  },
+  { id: 1, name: 'John Doe', number: '09123456789', date: 'April 7, 2025' },
+  { id: 2, name: 'Jane Smith', number: '09987654321',  date: 'April 20, 2025' },
+  { id: 3, name: 'Robert Johnson', number: '09876543210',   date: 'April 25, 2025'},
+  { id: 4, name: 'Emily Davis', number: '09765432109',   date: 'April 29, 2025' },
 ];
 
 export default function CashierDashboard() {
-  const handleApprove = (customerId) => {
-    console.log(`Approved customer ${customerId}`);
-    // Add your approval logic here
-  };
 
-  const handleDecline = (customerId) => {
-    console.log(`Declined customer ${customerId}`);
-    // Add your decline logic here
-  };
 
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh', backgroundColor: 'rgb(15, 23, 42)' }}>
@@ -84,7 +76,9 @@ export default function CashierDashboard() {
               }}>
                 <TableCell>CUSTOMER NAME</TableCell>
                 <TableCell>CUSTOMER NUMBER</TableCell>
+                <TableCell>Pick Up Date</TableCell>
                 <TableCell >ACTIONS</TableCell>
+               
               </TableRow>
             </TableHead>
             <TableBody>
@@ -103,13 +97,14 @@ export default function CashierDashboard() {
                     {customer.name}
                   </TableCell>
                   <TableCell>{customer.number}</TableCell>
+                  <TableCell>{customer.date}</TableCell>
                   <TableCell align="right" sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
                     <Button
                       variant="contained"
                       color="success"
                       size="small"
                       startIcon={<CheckIcon />}
-                      onClick={() => handleApprove(customer.id)}
+                     
                       sx={{
                         textTransform: 'none',
                         backgroundColor: 'rgba(74, 222, 128, 0.2)',
@@ -125,7 +120,6 @@ export default function CashierDashboard() {
                       color="error"
                       size="small"
                       startIcon={<CloseIcon />}
-                      onClick={() => handleDecline(customer.id)}
                       sx={{
                         textTransform: 'none',
                         backgroundColor: 'rgba(248, 113, 113, 0.2)',
