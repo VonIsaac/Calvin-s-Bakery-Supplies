@@ -124,7 +124,24 @@ const postProducts = async (data) => {
     }catch(err){
     console.log(err)
     }
- }
+ };
+
+ // gettting the data to both user and admin
+const getUser = async ({ token }) => {
+    try {
+      const response = await API.get('/user/me',  {
+        headers: {
+          Authorization: `Bearer ${token}`,
+           
+        },
+      });
+      console.log("User data:", response.data);
+      return response.data.data; // Extract the 'data' field directly if needed
+    } catch (err) {
+      console.error("Error fetching user data:", err);
+      throw err;
+    }
+  };
 
 
 export{ 
@@ -135,5 +152,6 @@ export{
     deleteCashier,
     postProducts,
     getProductsByCategory,
-    getProducts
+    getProducts,
+    getUser
 }

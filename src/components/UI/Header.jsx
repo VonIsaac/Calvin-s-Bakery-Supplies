@@ -7,7 +7,7 @@ export default function Header({children}) {
   return (
      <div>
             <Box sx={{ flexGrow: 1 }}>
-              <AppBar position="static" sx={{ backgroundColor: 'oklch(0.279 0.041 260.031)' }}>
+              <AppBar position="static" sx={{ backgroundColor: 'oklch(90.5% 0.093 164.15)' }}>
                 <Toolbar>
                   <Typography variant="h6" component="div" 
                     sx={{ 

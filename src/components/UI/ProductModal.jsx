@@ -18,7 +18,7 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 400,
-  bgcolor: 'oklch(0.373 0.034 259.733)',
+  bgcolor: 'oklch(98.5% 0 0)',
   border: 'none',
   boxShadow: 24,
   p: 4,
@@ -26,13 +26,11 @@ const style = {
 };
 
 
-
-
 export default function ProductModal() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
+  
     const [productsCreds, setProductCreds] = useState({
         name: '',
         images: '',
@@ -43,7 +41,7 @@ export default function ProductModal() {
 
 
     // performe mutation to upload data
-    const {mutate, isPending} = useMutation({
+    const {mutate, isPending} = useMutation({ // functionality to upload data
         mutationFn:   postProducts,
         onSuccess: () => {
             setOpen(false)
@@ -96,9 +94,9 @@ export default function ProductModal() {
   return (
     <div>
         <Button onClick={handleOpen} sx={{
-                color: 'oklch(0.871 0.006 286.286)',
+                color: 'oklch(14.5% 0 0)',
                 fontWeight: '250px',
-                backgroundColor: 'oklch(0.21 0.034 264.665)'
+                backgroundColor: 'oklch(97% 0 0)'
               }}>
             Create Product
         </Button>
@@ -110,11 +108,11 @@ export default function ProductModal() {
       >
         <Box sx={style}>
           <form onSubmit={handleCreateProduct}>
-            <h1 className=' text-center text-2xl font-bold tracking-wider uppercase text-stone-400'>
+            <h1 className=' text-center text-2xl font-bold tracking-wider uppercase text-'>
                 Create Product
             </h1>
             <div className="m-3">
-                <label htmlFor="name" className=' text-stone-300 tracking-wider'>Name:</label>
+                <label htmlFor="name" className=' text- tracking-wider'>Name:</label>
                 <input 
                     value={productsCreds.name}
                     onChange={handleChange}
@@ -129,7 +127,7 @@ export default function ProductModal() {
             </div>
 
             <div  className="m-3">
-                <label htmlFor="images" className=' text-stone-300 tracking-wider'>Images:</label>
+                <label htmlFor="images" className=' text- tracking-wider'>Images:</label>
                 <input 
                     value={productsCreds.images}
                     onChange={handleChange}
@@ -143,7 +141,7 @@ export default function ProductModal() {
             </div >
 
             <div  className="m-3">
-                <label htmlFor="description" className=' text-stone-300 tracking-wider'>Description:</label>
+                <label htmlFor="description" className=' text- tracking-wider'>Description:</label>
                 <input 
                     value={productsCreds.description}
                     onChange={handleChange}
@@ -157,7 +155,7 @@ export default function ProductModal() {
             </div>
 
            <div  className="m-3">
-                <label htmlFor="price" className=' text-stone-300 tracking-wider'>Price:</label>
+                <label htmlFor="price" className=' text- tracking-wider'>Price:</label>
                 <input 
                     value={productsCreds.price}
                     onChange={handleChange}
@@ -171,7 +169,7 @@ export default function ProductModal() {
            </div>
 
            <div  className="m-3">
-           <label htmlFor="category" className=' text-stone-300 tracking-wider'>Category:</label>
+           <label htmlFor="category" className=' text- tracking-wider'>Category:</label>
             <select 
                     name="category" 
                     required 

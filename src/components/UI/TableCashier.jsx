@@ -44,31 +44,31 @@ export default function CashierTable() {
   return (
     <>
       <SnackBar open={open} onClose={handleClose} />
-      
-      <TableContainer 
+
+      <TableContainer
         component={Paper}
         sx={{
-          backgroundColor: 'transparent',
-          backgroundImage: 'none',
-          boxShadow: 'none',
+          backgroundColor: 'oklch(97% 0 0)',
           border: '1px solid rgba(255, 255, 255, 0.12)',
+          boxShadow: 'none',
+          borderRadius: 2,
           maxHeight: 'calc(100vh - 200px)',
           '&::-webkit-scrollbar': {
             width: '6px',
             height: '6px'
           },
           '&::-webkit-scrollbar-thumb': {
-            backgroundColor: 'rgba(255, 255, 255, 0.2)',
+            backgroundColor: 'rgba(0, 0, 0, 0.1)',
             borderRadius: '3px'
           }
         }}
       >
-        <Table 
-          sx={{ 
+        <Table
+          sx={{
             minWidth: 650,
             '& .MuiTableCell-root': {
-              borderColor: 'rgba(255, 255, 255, 0.08)',
-              color: 'rgba(255, 255, 255, 0.87)',
+              borderColor: 'rgba(0, 0, 0, 0.05)',
+              color: '#1e293b',
               py: 2
             }
           }}
@@ -77,8 +77,8 @@ export default function CashierTable() {
           <TableHead>
             <TableRow sx={{
               '& .MuiTableCell-root': {
-                backgroundColor: 'rgb(15 23 42)',
-                color: 'rgb(148 163 184)',
+                backgroundColor: 'oklch(92.8% 0.006 264.531)',
+                color: '#1e1e1e',
                 fontWeight: 600,
                 fontSize: '0.75rem',
                 letterSpacing: '0.05em',
@@ -91,52 +91,60 @@ export default function CashierTable() {
               <TableCell align="center">Actions</TableCell>
             </TableRow>
           </TableHead>
+
           <TableBody>
             {(data?.result || []).map((cashier) => (
-              <TableRow 
+              <TableRow
                 key={cashier._id}
                 hover
                 sx={{
+                  '&:last-child td, &:last-child th': { border: 0 },
+                  '& .MuiTableCell-root': {
+                    borderColor: 'oklch(92.3% 0.003 48.717)',
+                   
+                  },
                   '&:hover': {
-                    backgroundColor: 'rgba(255, 255, 255, 0.03)'
+                   backgroundColor: 'oklch(70.8% 0 0)',
                   }
                 }}
               >
-                <TableCell sx={{ 
-                  color: 'rgb(226 232 240)',
+                <TableCell sx={{
+                  color: '#334155',
                   fontFamily: 'monospace',
                   letterSpacing: '0.025em'
                 }}>
                   {formatCashierId(cashier._id)}
                 </TableCell>
-                
-                <TableCell 
-                  align="center" 
-                  sx={{ 
-                    color: 'rgb(226 232 240)',
+
+                <TableCell
+                  align="center"
+                  sx={{
+                    color: '#1e293b',
                     textTransform: 'uppercase',
                     fontWeight: 500
                   }}
                 >
                   {cashier.username}
                 </TableCell>
-                <TableCell 
+
+                <TableCell
                   align="center"
-                  sx={{ 
-                    color: 'rgba(255, 255, 255, 0.7)',
+                  sx={{
+                    color: '#475569',
                     fontSize: '0.875rem'
                   }}
                 >
                   {cashier.email}
                 </TableCell>
+
                 <TableCell align="center">
                   <IconButton
                     onClick={() => handleDelete(cashier._id)}
                     sx={{
-                      color: 'rgba(239, 68, 68, 0.7)',
+                      color: '#dc2626',
                       '&:hover': {
                         backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                        color: 'rgb(239, 68, 68)'
+                        color: '#b91c1c'
                       }
                     }}
                   >

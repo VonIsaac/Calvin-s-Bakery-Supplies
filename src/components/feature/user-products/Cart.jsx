@@ -31,7 +31,7 @@ export default function Cart() {
       
       <Box sx={{ 
         minHeight: 'calc(100vh - 128px)', 
-        backgroundColor: 'rgb(15, 23, 42)',
+        backgroundColor: ' oklch(87.1% 0.006 286.286)',
         color: 'white',
         p: 3
       }}>
@@ -42,7 +42,7 @@ export default function Cart() {
             to="/user-products"
             startIcon={<ArrowBackIcon />}
             sx={{
-              color: 'white',
+              color: 'oklch(14.7% 0.004 49.25)',
               '&:hover': {
                 backgroundColor: 'rgba(255, 255, 255, 0.1)'
               }
@@ -51,7 +51,7 @@ export default function Cart() {
           </Button>
         </Box>
 
-        <Typography variant="h4" sx={{ mb: 3, fontWeight: 600, textAlign: 'center' }}>
+        <Typography variant="h4" sx={{ mb: 3, fontWeight: 600, textAlign: 'center', color: 'oklch(14.7% 0.004 49.25)' }}>
           Your Shopping Cart
         </Typography>
         
@@ -59,9 +59,11 @@ export default function Cart() {
         <Box sx={{ 
           maxWidth: '800px', 
           mx: 'auto',
-          border: '1px solid rgba(255, 255, 255, 0.12)',
+          border: '1px solid rgba(119, 25, 25, 0.12)',
           borderRadius: 2,
-          overflow: 'hidden'
+          overflow: 'hidden',
+          backgroundColor: 'oklch(98.5% 0 0)',
+          color: 'oklch(14.7% 0.004 49.25)'
         }}>
           {cartItems.map((item) => (
             <Box key={item.id}>
@@ -74,7 +76,7 @@ export default function Cart() {
                 {/* Product Info */}
                 <Box sx={{ flexGrow: 1 }}>
                   <Typography variant="h6" sx={{ fontWeight: 500 }}>{item.name}</Typography>
-                  <Typography variant="body1" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
+                  <Typography variant="body1" sx={{ color: 'oklch(14.7% 0.004 49.25)' }}>
                     ₱{item.price.toLocaleString()}
                   </Typography>
                 </Box>
@@ -85,11 +87,11 @@ export default function Cart() {
                   alignItems: 'center', 
                   mx: 2 
                 }}>
-                  <IconButton size="small" sx={{ color: 'white' }}>
+                  <IconButton size="small" sx={{ color: 'oklch(14.7% 0.004 49.25)' }}>
                     <RemoveIcon fontSize="small" />
                   </IconButton>
                   <Typography sx={{ mx: 1.5 }}>{item.quantity}</Typography>
-                  <IconButton size="small" sx={{ color: 'white' }}>
+                  <IconButton size="small" sx={{ color: 'oklch(14.7% 0.004 49.25)' }}>
                     <AddIcon fontSize="small" />
                   </IconButton>
                 </Box>
@@ -108,7 +110,7 @@ export default function Cart() {
                   </IconButton>
                 </Box>
               </Box>
-              <Divider sx={{ borderColor: 'rgba(255, 255, 255, 0.12)' }} />
+              <Divider sx={{ borderColor:  'oklch(86.9% 0.005 56.366)' }} />
             </Box>
           ))}
         </Box>
@@ -119,8 +121,10 @@ export default function Cart() {
           mx: 'auto', 
           mt: 3,
           p: 3,
-          border: '1px solid rgba(255, 255, 255, 0.12)',
-          borderRadius: 2
+          border: '1px solid oklch(98.5% 0 0)',
+          borderRadius: 2,
+          backgroundColor: 'oklch(98.5% 0 0)',
+          color: 'oklch(14.7% 0.004 49.25)'
         }}>
           <Typography variant="h6" sx={{ mb: 3, fontWeight: 500 }}>Order Total</Typography>
           

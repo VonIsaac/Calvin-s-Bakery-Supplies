@@ -1,40 +1,67 @@
+import React from 'react';
+import { 
+  Box, 
+  Container, 
+  Typography, 
+  Link, 
+  Divider,
+  List,
+  ListItem
+} from '@mui/material';
 
-
-import React from 'react'
-
-export default function Footer({children}) {
+export default function Footer({ children }) {
   return (
-    <div className='bg-slate-950'>
-    <footer className="bg-white shadow dark:bg-gray-800">
-      <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
-        <div className="sm:flex sm:items-center sm:justify-between">
-          <div className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
-                {children}
-            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-              Calvin's Bakery Supplies
-            </span>
-          </div>
-          <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
-            <li>
-              <a href="#" className="hover:underline me-4 md:me-6">Facebook</a>
-            </li>
-            <li>
-              <a href="#" className="hover:underline me-4 md:me-6">Instagram</a>
-            </li>
-            <li>
-              <a href="#" className="hover:underline me-4 md:me-6">Gmail</a>
-            </li>
-            <li>
-              <a href="#" className="hover:underline">Contact</a>
-            </li>
-          </ul>
-        </div>
-        <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-        <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
-          © {new Date().getFullYear()} <a href="#" className="hover:underline">Calvin's Bakery Supplies™</a>. All Rights Reserved.
-        </span>
-      </div>
-    </footer>
-  </div>
-  )
+    <Box sx={{ backgroundColor: 'background.default' }}>
+      <Box  component="footer" 
+        sx={{ 
+          backgroundColor: 'oklch(90.5% 0.093 164.15)' ,
+          boxShadow: 1,
+          color: 'text.primary'
+        }}
+      >
+        <Container maxWidth="xl" sx={{ p: 4, py: { md: 8 } }}>
+          <Box sx={{  display: 'flex',  flexDirection: { xs: 'column', sm: 'row' }, alignItems: 'center',  justifyContent: { sm: 'space-between' },mb: 4}}>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: { xs: 4, sm: 0 },mr: { sm: 3 }}}>
+              {children}
+              <Typography variant="h5" component="span" sx={{ fontWeight: 600, whiteSpace: 'nowrap',color: 'oklch(20.5% 0 0)'}}>
+                Calvin's Bakery Supplies
+              </Typography>
+            </Box>
+
+            <List sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', mb: { xs: 6, sm: 0 },p: 0}}>
+              <ListItem sx={{ width: 'auto', p: 0, mr: 4 }}>
+                <Link href="#" underline="hover" color="oklch(20.5% 0 0)">
+                  Facebook
+                </Link>
+              </ListItem>
+              <ListItem sx={{ width: 'auto', p: 0, mr: 4 }}>
+                <Link href="#" underline="hover" color="oklch(20.5% 0 0)">
+                  Instagram
+                </Link>
+              </ListItem>
+              <ListItem sx={{ width: 'auto', p: 0, mr: 4 }}>
+                <Link href="#" underline="hover" color="oklch(20.5% 0 0)">
+                  Gmail
+                </Link>
+              </ListItem>
+              <ListItem sx={{ width: 'auto', p: 0 }}>
+                <Link href="#" underline="hover" color="oklch(20.5% 0 0)">
+                  Contact
+                </Link>
+              </ListItem>
+            </List>
+          </Box>
+          <Divider sx={{ my: 6, borderColor: 'divider',mx: 'auto',lg: { my: 8 }}} />
+
+          <Typography variant="body2" color="oklch(20.5% 0 0)" align="center"component="div"sx={{ display: 'block' }}>
+            © {new Date().getFullYear()}{' '}
+            <Link href="#" underline="hover" color="oklch(20.5% 0 0)">
+              Calvin's Bakery Supplies™
+            </Link>
+            . All Rights Reserved.
+          </Typography>
+        </Container>
+      </Box>
+    </Box>
+  );
 }

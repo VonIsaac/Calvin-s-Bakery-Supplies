@@ -42,7 +42,7 @@ export default function SignUp() {
          // Trigger mutation from context
          postSignUpMutation.mutate(formDatas, {
             onSuccess: () => {
-                navigate("../"); // Navigate to login page after success
+                navigate("/login"); // Navigate to login page after success
                 alert("Account Created");
                 setIsCredentials({ username: "", email: "", password: "",  }); // Clear form data
             },
@@ -109,7 +109,7 @@ export default function SignUp() {
                             </motion.button>
                             </div>
                             <p>
-                                 <Link to='/'> Already have an account? <strong>Login</strong></Link>
+                                 <Link to='/login'> Already have an account? <strong>Login</strong></Link>
                             </p>
                         </div>
                     </form>

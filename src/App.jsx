@@ -5,7 +5,6 @@ import { AuthProvider } from './components/store/AuthProvider'
 
 import LoginForm from './components/feature/login/Login'
 import SignUp from './components/feature/signup/SignUp'
-import AdminDashboard from './components/feature/admin/AdminDashboard'
 import UserProduct from './components/feature/user-products/UserProducts'
 import CreateCashierAcc from './components/feature/admin-list/CreateCashierAcc'
 import Analytics from './components/feature/admin-list/Analytics'

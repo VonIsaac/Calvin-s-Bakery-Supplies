@@ -24,15 +24,16 @@ export default function SideBar() {
   };
 
   const links = {
-    product: <Link to='/admin-products' className="hover:text-amber-400">Products</Link>,
-    analytics: <Link to='/admin-dashboard' className="hover:text-amber-400">Analytics</Link>,
-    cashier: <Link to='/create-cashier' className="hover:text-amber-400">Cashier</Link>
+    analytics: <Link to='/admin-dashboard' style={{ color: 'oklch(26.8% 0.007 34.298)' }}>Analytics</Link>,
+    product: <Link to='/admin-products' style={{ color: 'oklch(26.8% 0.007 34.298)' }}>Products</Link>,
+    cashier: <Link to='/create-cashier' style={{ color: 'oklch(26.8% 0.007 34.298)' }}>Cashier</Link>
   };
+  
 
   const menuItems = [
-    { text: links.product, icon: <ProductionQuantityLimitsIcon /> },
-    { text: links.analytics, icon: <AnalyticsIcon /> },
-    { text: links.cashier, icon: <Person2Icon /> },
+    { text: links.analytics, icon: <AnalyticsIcon sx={{color: 'oklch(75% 0.183 55.934)'}} /> },
+    { text: links.product, icon: <ProductionQuantityLimitsIcon sx={{color: 'oklch(75% 0.183 55.934)'}} /> },  
+    { text: links.cashier, icon: <Person2Icon sx={{color: 'oklch(75% 0.183 55.934)'}} /> },
   ];
 
   const DrawerList = (
@@ -40,7 +41,7 @@ export default function SideBar() {
       sx={{ 
         width: 250,
         height: '100%',
-        backgroundColor: 'rgb(15 23 42)',
+        backgroundColor: 'oklch(92.3% 0.003 48.717)',
         color: 'rgb(226 232 240)',
         borderTopRightRadius: '12px',
         borderBottomRightRadius: '12px',
@@ -53,7 +54,7 @@ export default function SideBar() {
           <ListItem key={text}  disablePadding sx={{ '&:first-of-type': {borderTopLeftRadius: '8px',borderTopRightRadius: '8px',},'&:last-child': {borderBottomLeftRadius: '8px', borderBottomRightRadius: '8px',}}}>
             <ListItemButton sx={{ '&:hover': {backgroundColor: 'rgba(251, 191, 36, 0.1)',borderRadius: '8px',}}}>
 
-              <ListItemIcon sx={{ color: 'rgb(251, 191, 36)',minWidth: '40px' }}>
+              <ListItemIcon sx={{ color: 'oklch(75% 0.183 55.934)',minWidth: '40px' }}>
                 {icon}
               </ListItemIcon>
 
@@ -64,12 +65,12 @@ export default function SideBar() {
 
       </List>
 
-      <Divider sx={{ borderColor: 'rgba(255, 255, 255, 0.12)',mx: 2,}} />
+      <Divider sx={{ borderColor: 'oklch(75% 0.183 55.934)',mx: 2,}} />
 
       <Box sx={{ p: 2, color: 'rgb(148, 163, 184)',borderBottomRightRadius: '12px',}}>
         <div className=' flex '>
           <AdminPanelSettingsIcon  />
-          <p className=' font-semibold'>Admin</p>
+          <p className=' font-semibold' >Admin</p>
         </div>
       </Box>
     </Box>
@@ -78,7 +79,7 @@ export default function SideBar() {
   return (
     <div>
       <Button onClick={toggleDrawer(true)} sx={{minWidth: 'auto', padding: '8px','&:hover': { backgroundColor: 'rgba(251, 191, 36, 0.1)',borderRadius: '8px',}}}>
-        <MenuRoundedIcon  sx={{ color: 'rgb(251, 191, 36)', fontSize: '2rem',}}/>
+        <MenuRoundedIcon  sx={{ color: 'oklch(75% 0.183 55.934)', fontSize: '2rem',}}/>
       </Button>
 
       <Drawer open={open} onClose={toggleDrawer(false)} PaperProps={{sx: {backgroundColor: 'rgb(15 23 42)', color: 'rgb(226 232 240)', borderTopRightRadius: '12px',borderBottomRightRadius: '12px',}}}>

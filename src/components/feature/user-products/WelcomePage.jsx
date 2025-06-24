@@ -19,7 +19,7 @@ export default function WelcomePage() {
       <section 
         className="relative py-24 md:py-36 overflow-hidden min-h-[80vh]"
         style={{ 
-          background: 'linear-gradient(135deg, rgba(15,23,42,1) 0%, rgba(39,49,89,1) 50%, rgba(15,23,42,1) 100%)',
+          background: 'linear-gradient(135deg, oklch(98.5% 0 0) 0%, oklch(98.5% 0 0) 50%, oklch(98.5% 0 0) 100%)',
           backgroundSize: '200% 200%',
           animation: 'gradientWave 12s ease infinite'
         }}>
@@ -28,10 +28,10 @@ export default function WelcomePage() {
           <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
         </div>
         <div className="container mx-auto px-6 text-center relative z-10">
-          <h1 className="text-white font-bold text-4xl md:text-6xl lg:text-7xl leading-tight mb-6">
+          <h1 className="text-stone-900 font-bold text-4xl md:text-6xl lg:text-7xl leading-tight mb-6">
             Welcome to Calvin's Bakery
           </h1>
-          <p className="text-gray-300 text-xl md:text-2xl max-w-2xl mx-auto mb-10">
+          <p className="text-stone-900 text-xl md:text-2xl max-w-2xl mx-auto mb-10">
             Premium baking ingredients and supplies for professionals and home bakers alike.
           </p>
           <Button 
@@ -40,40 +40,41 @@ export default function WelcomePage() {
             variant="contained"
             size="large"
             sx={{
-              background: 'linear-gradient(to right, #4f46e5, #7c3aed)',
+              backgroundColor: '#f97316', // Tailwind's bg-orange-500
               color: 'white',
               fontWeight: 'bold',
               px: 6,
               py: 1.5,
-              borderRadius: '9999px',
+              borderRadius: '9999px', // rounded-full
               '&:hover': {
-                background: 'linear-gradient(to right, #4338ca, #6d28d9)',
+                backgroundColor: '#ea580c', // Tailwind's bg-orange-600
                 transform: 'translateY(-2px)',
-                boxShadow: '0 4px 15px rgba(79, 70, 229, 0.3)'
+                boxShadow: '0 4px 15px rgba(249, 115, 22, 0.3)' // warm orange shadow
               },
               transition: 'all 0.3s ease',
               boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
             }}
           >
-            Brow&apos;s Now
+            Browse Now
           </Button>
+
         </div>
       </section>
 
             {/* Products Section */}
-        <div className="bg-slate-950 py-16">
+        <div className="bg-neutral-100 py-16">
             <div className="container mx-auto px-6">
-                <h2 className="text-3xl font-bold text-white text-center mb-12">Featured Products</h2>
+                <h2 className="text-3xl font-bold text-stone-900 text-center mb-12">Featured Products</h2>
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                 {/* Product Card 1 */}
                 <div 
-                    className="bg-gray-800 rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-1"
-                    style={{ border: '1px solid rgba(255, 255, 255, 0.12)' }}
+                    className="bg-white rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-1"
+                    style={{ border: 'none' }}
                 >
                     <div 
                     className="h-48 flex items-center justify-center p-4"
-                    style={{ backgroundColor: 'rgb(30, 41, 59)' }}
+                    style={{ backgroundColor: 'white' }}
                     >
                     <img 
                         src={Cake} 
@@ -82,24 +83,24 @@ export default function WelcomePage() {
                     />
                     </div>
                     <div className="p-6">
-                    <h3 className="text-xl font-bold text-white mb-2">Cake Emulsifier 4kgs</h3>
-                    <p className="text-gray-300 mb-4">
+                    <h3 className="text-xl font-bold text-stone-900 mb-2">Cake Emulsifier 4kgs</h3>
+                    <p className=" mb-4 text-stone-900">
                         Ideal for commercial baking, ensuring soft, moist, and well-structured cakes with a smooth consistency.
                     </p>
                     <div className="flex justify-between items-center">
-                        <span className="text-white font-bold text-lg">₱1,242.14</span>
+                        <span className="text-orange-500 font-bold text-lg">₱1,242.14</span>
                     </div>
                     </div>
                 </div>
 
                 {/* Product Card 2 */}
                 <div 
-                    className="bg-gray-800 rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-1"
-                    style={{ border: '1px solid rgba(255, 255, 255, 0.12)' }}
+                    className="bg-white rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-1"
+                    style={{ border: 'none' }}
                 >
                     <div 
                     className="h-48 flex items-center justify-center p-4"
-                    style={{ backgroundColor: 'rgb(30, 41, 59)' }}
+                    style={{ backgroundColor: 'white' }}
                     >
                     <img 
                         src={Pottasium} 
@@ -108,22 +109,22 @@ export default function WelcomePage() {
                     />
                     </div>
                     <div className="p-6">
-                    <h3 className="text-xl font-bold text-white mb-2">Potassium Sorbate</h3>
-                    <p className="text-gray-300 mb-4">A high-quality preservative used to extend the shelf life of food</p>
+                    <h3 className="text-xl font-bold text-stone-900 mb-2">Potassium Sorbate</h3>
+                    <p className=" mb-4 text-stone-900">A high-quality preservative used to extend the shelf life of food</p>
                     <div className="flex justify-between items-center">
-                        <span className="text-white font-bold text-lg">₱92</span>
+                        <span className="text-orange-500 font-bold text-lg">₱92</span>
                     </div>
                     </div>
                 </div>
 
                 {/* Product Card 3 */}
                 <div 
-                    className="bg-gray-800 rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-1"
-                    style={{ border: '1px solid rgba(255, 255, 255, 0.12)' }}
+                    className="bg-white rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-1"
+                    style={{ border: 'none' }}
                 >
                     <div 
                     className="h-48 flex items-center justify-center p-4"
-                    style={{ backgroundColor: 'rgb(30, 41, 59)' }}
+                    style={{ backgroundColor: 'white' }}
                     >
                     <img 
                         src={Freeto} 
@@ -132,22 +133,22 @@ export default function WelcomePage() {
                     />
                     </div>
                     <div className="p-6">
-                    <h3 className="text-xl font-bold text-white mb-2">FL40- Freeto Lard 40kg</h3>
-                    <p className="text-gray-300 mb-4">Made from high-quality lard, ensuring a premium and reliable product.</p>
+                    <h3 className="text-xl font-bold text-stone-900 mb-2">FL40- Freeto Lard 40kg</h3>
+                    <p className=" mb-4 text-stone-900">Made from high-quality lard, ensuring a premium and reliable product.</p>
                     <div className="flex justify-between items-center">
-                        <span className="text-white font-bold text-lg">₱3,500</span>
+                        <span className="text-orange-500 font-bold text-lg">₱3,500</span>
                     </div>
                     </div>
                 </div>
 
                 {/* Product Card 4 */}
                 <div 
-                    className="bg-gray-800 rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-1"
-                    style={{ border: '1px solid rgba(255, 255, 255, 0.12)' }}
+                    className="bg-white rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-1"
+                    style={{ border: 'none' }}
                 >
                     <div 
                     className="h-48 flex items-center justify-center p-4"
-                    style={{ backgroundColor: 'rgb(30, 41, 59)' }}
+                    style={{ backgroundColor: 'white' }}
                     >
                     <img 
                         src={BaronFlour} 
@@ -156,10 +157,10 @@ export default function WelcomePage() {
                     />
                     </div>
                     <div className="p-6">
-                    <h3 className="text-xl font-bold text-white mb-2">Baron All Purpose Flour</h3>
-                    <p className="text-gray-300 mb-4">A versatile, high-quality flour suitable for a wide range of baking</p>
+                    <h3 className="text-xl font-bold text-stone-900 mb-2">Baron All Purpose Flour</h3>
+                    <p className=" mb-4 text-stone-900">A versatile, high-quality flour suitable for a wide range of baking</p>
                     <div className="flex justify-between items-center">
-                        <span className="text-white font-bold text-lg">₱1,750</span>
+                        <span className="text-orange-500 font-bold text-lg">₱1,750</span>
                     </div>
                     </div>
                 </div>

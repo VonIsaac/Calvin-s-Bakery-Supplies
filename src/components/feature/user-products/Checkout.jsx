@@ -34,20 +34,20 @@ export default function Checkout() {
   return (
     <>
       <div>
-        <Button 
+      <Button 
           variant="contained" 
           fullWidth  
           size="large" 
           onClick={handleOpen}
           sx={{
-            backgroundColor: 'oklch(0.279 0.041 260.031)', 
-            '&:hover': { backgroundColor: 'oklch(0.279 0.041 260.031 / 0.8)' },
-            py: 1.5, 
-            fontWeight: 600
-          }}
-        >
-          CHECKOUT ALL
-        </Button>
+          backgroundColor: '#f97316', // Tailwind's bg-orange-500
+          '&:hover': { backgroundColor: '#ea580c' }, // Tailwind's bg-orange-600 for hover
+          py: 1.5, 
+          fontWeight: 600
+        }}>
+        CHECKOUT ALL
+      </Button>
+
         <Modal
           open={open}
           onClose={handleClose}

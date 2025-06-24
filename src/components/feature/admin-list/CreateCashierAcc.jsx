@@ -4,7 +4,7 @@ import CashierTable from '../../UI/TableCashier'
 export default function CreateCashierAcc() {
  
   return (
-    <main className=' bg-slate-950 h-screen '>
+    <main className=' bg-nuetral-300 h-screen '>
        <Navar />
       <CashierTable />
     </main>

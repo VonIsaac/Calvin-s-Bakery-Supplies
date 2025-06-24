@@ -1,3 +1,4 @@
+
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -14,7 +15,7 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 400,
-  bgcolor: 'oklch(0.373 0.034 259.733)',
+  bgcolor: 'oklch(98.5% 0 0)',
   border: 'none',
   boxShadow: 24, 
   borderRadius: '25px',
@@ -86,9 +87,9 @@ export default function CashierModal({onClick, onClose, open}) {
   return (
     <div>
       <Button  onClick={onClick} sx={{
-        color: 'oklch(0.871 0.006 286.286)',
+        color: 'oklch(14.5% 0 0)',
         fontWeight: '250px',
-        backgroundColor: 'oklch(0.374 0.01 67.558)'
+        backgroundColor: 'oklch(97% 0 0)'
       }}>
             Create Cashier
         </Button>
@@ -100,9 +101,9 @@ export default function CashierModal({onClick, onClose, open}) {
       >
         <Box sx={style}>
            <form onSubmit={handleCreateCashier}>
-                <h1 className=' text-center text-xl font-bold tracking-wider uppercase text-stone-400'>Create Cashier Account</h1>
+                <h1 className=' text-center text-xl font-bold tracking-wider uppercase text-'>Create Cashier Account</h1>
                 <div className="m-3">
-                        <label htmlFor="username" className=' text-stone-300 tracking-wider'>Username:</label>
+                        <label htmlFor="username" className=' text- tracking-wider'>Username:</label>
                         <input
                             className="w-[200px] sm:w-[200px] md:w-[200px] lg:w-[320px] px-4 py-2 border border-gray-300 bg-stone-300  rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                             label="Username"
@@ -115,7 +116,7 @@ export default function CashierModal({onClick, onClose, open}) {
                             />
                     </div>
                     <div className="m-3">
-                        <label htmlFor="email" className=' text-stone-300 tracking-wider'>Email:</label>
+                        <label htmlFor="email" className=' text- tracking-wider'>Email:</label>
                         <input
                             className="w-[200px] sm:w-[200px] md:w-[200px] lg:w-[320px] px-4 py-2 border border-gray-300 bg-stone-300  rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                             label="Email"
@@ -129,7 +130,7 @@ export default function CashierModal({onClick, onClose, open}) {
                     </div>
 
                     <div className="m-3">
-                        <label htmlFor="password" className=' text-stone-300 tracking-wider'>Password:</label>
+                        <label htmlFor="password" className=' text- tracking-wider'>Password:</label>
                         <input
                             className="w-[200px] sm:w-[200px] md:w-[200px] lg:w-[320px] px-4 py-2 border border-gray-300 bg-stone-300  rounded-lg  shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                             label="Password"
@@ -147,7 +148,7 @@ export default function CashierModal({onClick, onClose, open}) {
                             type='submit'
                             className="w-[200px] sm:w-[200px] md:w-[200px] lg:w-[320px] bg-green-500 text-white py-2 rounded-lg text-xl font-semibold shadow-xl active:scale-95 transition-transform duration-200 cursor-pointer"
                             whileTap={{ scale: 0.9 }}>
-                            {isPending ? 'Creating....,': 'Ceate Cashier'}
+                            {isPending ? 'Creating....,': 'Create Cashier'}
                         </motion.button>
                     </div>
             </form>

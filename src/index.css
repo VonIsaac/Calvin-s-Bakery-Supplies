@@ -1,3 +1,10 @@
 
+
 @import "tailwindcss";
 
+.section-id:{
+    background-color: #1a202c; 
+    min-height: 75vh;
+    display: flex;
+    align-items: center;
+} 

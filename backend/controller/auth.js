@@ -164,6 +164,37 @@ exports.getCashierAccount = async (req, res) => {
     }
 }
 
+exports.getMe = async (req, res) => { // ths function is for getting the user and admin data
+    try {
+        const user = await User.findById(req.user.id); // this is Model for getting the user data from the database
+        
+        if(!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        
+        res.status(200).json({
+            success: true,
+            data: {
+                id: user._id,
+                username: user.username,
+                email: user.email,
+                role: user.role,
+                createdAt: user.createdAt,
+                updatedAt: user.updatedAt
+            },
+            message: "User data fetched successfully"
+        });
+    } catch(err) {
+        console.log("Error:", err);
+        res.status(500).json({
+            success: false,
+            message: 'Server error',
+            error: err.message
+        });
+    }
+};
+
+
 // handle to delete cashier account 
 
 exports.deleteCashierAccount = async (req, res) => {

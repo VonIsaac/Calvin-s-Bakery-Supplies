@@ -1,226 +1,204 @@
-import React from 'react';
-import { getProducts } from '../../utils/http';
-import { useQuery } from '@tanstack/react-query';
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import IconButton from "@mui/material/IconButton";
-import DeleteIcon from "@mui/icons-material/Delete";
-import Paper from "@mui/material/Paper";
-import EditIcon from '@mui/icons-material/Edit';
-import Skeleton from '@mui/material/Skeleton';
-import Chip from '@mui/material/Chip';
-import TextField from '@mui/material/TextField';
-import InputAdornment from '@mui/material/InputAdornment';
-import SearchIcon from '@mui/icons-material/Search';
-import Box from '@mui/material/Box';
 
-export default function ProductTable() {
-    const { data, isLoading } = useQuery({
-        queryKey: ['products'],
-        queryFn: ({ signal }) => getProducts({ signal })
+
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+
+
+
+import { postProducts, queryClient } from '../../utils/http';
+import { useMutation } from '@tanstack/react-query';
+import { useState } from 'react';
+import swal from 'sweetalert';
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'oklch(98.5% 0 0)',
+  border: 'none',
+  boxShadow: 24,
+  p: 4,
+  borderRadius: '25px',
+};
+
+
+export default function ProductModal() {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  
+    const [productsCreds, setProductCreds] = useState({
+        name: '',
+        images: '',
+        description: '',
+        price: '',
+        category: ''
     });
 
-    return (
-        <Paper sx={{
-            backgroundColor: 'rgb(15, 23, 42)',
-            border: '1px solid rgba(255, 255, 255, 0.12)',
-            borderRadius: 1,
-            overflow: 'hidden',
-            boxShadow: 'none'
-        }}>
-            {/* Search Bar */}
-            <Box sx={{ p: 2 }}>
-                <TextField
-                    fullWidth
-                    placeholder="Search products..."
-                    variant="outlined"
-                    size="small"
-                    InputProps={{
-                        startAdornment: (
-                            <InputAdornment position="start">
-                                <SearchIcon sx={{ color: 'rgb(148, 163, 184)' }} />
-                            </InputAdornment>
-                        ),
-                        sx: {
-                            backgroundColor: 'rgb(30, 41, 59)',
-                            color: 'rgb(226, 232, 240)',
-                            '& .MuiOutlinedInput-notchedOutline': {
-                                borderColor: 'rgba(255, 255, 255, 0.12)'
-                            },
-                            '&:hover .MuiOutlinedInput-notchedOutline': {
-                                borderColor: 'rgba(255, 255, 255, 0.24)'
-                            },
-                            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                                borderColor: 'rgba(99, 102, 241)'
-                            }
-                        }
-                    }}
-                    inputProps={{
-                        style: {
-                            color: 'rgb(226, 232, 240)',
-                            padding: '10px 14px'
-                        }
-                    }}
+
+    // performe mutation to upload data
+    const {mutate, isPending} = useMutation({ // functionality to upload data
+        mutationFn:   postProducts,
+        onSuccess: () => {
+            setOpen(false)
+            swal("Good job!", "You created a product", "success");
+            queryClient.invalidateQueries({queryKey: ['products']})
+            setProductCreds({
+                name: '',
+                images: '',
+                description: '',
+                price: '',
+                category: ''
+            });
+        },
+        onError: (error) => {
+             
+            console.error(error);
+        }
+    });
+
+    // performe handle change to change the data 
+    const handleChange = (e) => {
+        setProductCreds({
+              // spread the existing data and use object key    
+            ...productsCreds,
+            [e.target.name]: e.target.value  
+        })
+    }
+
+
+    //function to create a product
+    const handleCreateProduct = (e) => {
+        e.preventDefault();
+        const formDatas = {
+            name:  productsCreds.name.trim(), 
+            images: productsCreds.images.trim(),
+            description: productsCreds.description.trim(),
+            price: parseFloat(productsCreds.price) || 0,
+            category: productsCreds.category.trim()
+        };
+
+         // Check for empty fields
+    if (!formDatas.name || !formDatas.images || !formDatas.description || !formDatas.price || !formDatas.category) {
+        console.error("All fields are required");
+        return;
+    }
+        mutate(formDatas)
+    }   
+
+
+  return (
+    <div>
+        <Button onClick={handleOpen} sx={{
+                color: 'oklch(14.5% 0 0)',
+                fontWeight: '250px',
+                backgroundColor: 'oklch(97% 0 0)'
+              }}>
+            Create Product
+        </Button>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <form onSubmit={handleCreateProduct}>
+            <h1 className=' text-center text-2xl font-bold tracking-wider uppercase text-'>
+                Create Product
+            </h1>
+            <div className="m-3">
+                <label htmlFor="name" className=' text- tracking-wider'>Name:</label>
+                <input 
+                    value={productsCreds.name}
+                    onChange={handleChange}
+                    type="text" 
+                    name="name" 
+                    id="name" 
+                    required 
+                    placeholder='Name'
+                    className="w-[200px] sm:w-[200px] md:w-[200px] lg:w-[320px] px-4 py-2 border border-gray-300 bg-neutral-300  rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
                 />
-            </Box>
+                    
+            </div>
 
-            <TableContainer sx={{
-                maxHeight: 'calc(100vh - 230px)',
-                '&::-webkit-scrollbar': {
-                    width: '6px',
-                    height: '6px'
-                },
-                '&::-webkit-scrollbar-thumb': {
-                    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-                    borderRadius: '3px'
-                }
-            }}>
-                <Table stickyHeader>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell sx={{
-                                backgroundColor: 'rgb(30, 41, 59)',
-                                color: 'rgb(148, 163, 184)',
-                                fontWeight: 600,
-                                letterSpacing: '0.05em',
-                                borderColor: 'rgba(255, 255, 255, 0.12)',
-                                width: '30%'
-                            }}>
-                                PRODUCT NAME
-                            </TableCell>
+            <div  className="m-3">
+                <label htmlFor="images" className=' text- tracking-wider'>Images:</label>
+                <input 
+                    value={productsCreds.images}
+                    onChange={handleChange}
+                    type="text" 
+                    name="images" 
+                    id="images" 
+                    required 
+                    placeholder='Images'
+                    className="w-[200px] sm:w-[200px] md:w-[200px] lg:w-[320px] px-4 py-2 border border-gray-300 bg-neutral-300  rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
+                />
+            </div >
 
-                            <TableCell sx={{
-                                backgroundColor: 'rgb(30, 41, 59)',
-                                color: 'rgb(148, 163, 184)',
-                                fontWeight: 600,
-                                letterSpacing: '0.05em',
-                                borderColor: 'rgba(255, 255, 255, 0.12)',
-                                width: '15%'
-                            }}>
-                                PRICE
-                            </TableCell>
+            <div  className="m-3">
+                <label htmlFor="description" className=' text- tracking-wider'>Description:</label>
+                <input 
+                    value={productsCreds.description}
+                    onChange={handleChange}
+                    type="text" 
+                    name="description" 
+                    id="description" 
+                    required 
+                    placeholder='Description'
+                    className="w-[200px] sm:w-[200px] md:w-[200px] lg:w-[320px] px-4 py-2 border border-gray-300 bg-neutral-300  rounded-lg  shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
+                />
+            </div>
 
-                            <TableCell sx={{
-                                backgroundColor: 'rgb(30, 41, 59)',
-                                color: 'rgb(148, 163, 184)',
-                                fontWeight: 600,
-                                letterSpacing: '0.05em',
-                                borderColor: 'rgba(255, 255, 255, 0.12)',
-                                width: '20%'
-                            }}>
-                                CATEGORY
-                            </TableCell>
+           <div  className="m-3">
+                <label htmlFor="price" className=' text- tracking-wider'>Price:</label>
+                <input 
+                    value={productsCreds.price}
+                    onChange={handleChange}
+                    type="number" 
+                    name="price" 
+                    id="price" 
+                    required 
+                    placeholder='Price'
+                    className="w-[200px] sm:w-[200px] md:w-[200px] lg:w-[320px] px-4 py-2 border border-gray-300 bg-neutral-300  rounded-lg  shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
+                    />
+           </div>
 
-                            <TableCell sx={{
-                                backgroundColor: 'rgb(30, 41, 59)',
-                                color: 'rgb(148, 163, 184)',
-                                fontWeight: 600,
-                                letterSpacing: '0.05em',
-                                borderColor: 'rgba(255, 255, 255, 0.12)',
-                                width: '15%'
-                            }}>
-                                STOCK
-                            </TableCell>
-
-                            <TableCell sx={{
-                                backgroundColor: 'rgb(30, 41, 59)',
-                                color: 'rgb(148, 163, 184)',
-                                fontWeight: 600,
-                                letterSpacing: '0.05em',
-                                borderColor: 'rgba(255, 255, 255, 0.12)',
-                                width: '20%'
-                            }} align="right">
-                                ACTIONS
-                            </TableCell>
-                        </TableRow>
-                    </TableHead>
-
-                    <TableBody>
-                        {isLoading ? (
-                            Array(5).fill().map((_, index) => (
-                                <TableRow key={index}>
-                                    <TableCell sx={{ borderColor: 'rgba(255, 255, 255, 0.12)' }}><Skeleton animation="wave" /></TableCell>
-                                    <TableCell sx={{ borderColor: 'rgba(255, 255, 255, 0.12)' }}><Skeleton animation="wave" /></TableCell>
-                                    <TableCell sx={{ borderColor: 'rgba(255, 255, 255, 0.12)' }}><Skeleton animation="wave" /></TableCell>
-                                    <TableCell sx={{ borderColor: 'rgba(255, 255, 255, 0.12)' }}><Skeleton animation="wave" /></TableCell>
-                                    <TableCell sx={{ borderColor: 'rgba(255, 255, 255, 0.12)' }} align="right"><Skeleton width={80} animation="wave" /></TableCell>
-                                </TableRow>
-                            ))
-                        ) : (
-                            (data?.products || []).map((product) => (
-                                <TableRow
-                                    key={product._id}
-                                    hover
-                                    sx={{
-                                        '&:hover': {
-                                            backgroundColor: 'rgba(255, 255, 255, 0.03)'
-                                        },
-                                        '& .MuiTableCell-root': {
-                                            borderColor: 'rgba(255, 255, 255, 0.12)'
-                                        }
-                                    }}>
-                                    <TableCell sx={{ color: 'rgb(226, 232, 240)', fontWeight: 500 }}>
-                                        {product.name}
-                                    </TableCell>
-
-                                    <TableCell sx={{ color: 'rgb(226, 232, 240)', fontWeight: 500 }}>
-                                        ₱{product.price.toLocaleString()}
-                                    </TableCell>
-
-                                    <TableCell>
-                                        <Chip
-                                            label={product.category}
-                                            size="small"
-                                            sx={{
-                                                textTransform: 'uppercase',
-                                                fontSize: '0.7rem',
-                                                letterSpacing: '0.05em',
-                                                backgroundColor: 'rgba(99, 102, 241, 0.16)',
-                                                color: 'rgb(165, 180, 252)'
-                                            }}
-                                        />
-                                    </TableCell>
-
-                                    <TableCell sx={{ color: 'rgb(226, 232, 240)', fontWeight: 500 }}>
-                                        10
-                                    </TableCell>
-
-                                    <TableCell align="right">
-                                        <IconButton
-                                            size="small"
-                                            sx={{
-                                                color: 'rgba(255, 255, 255, 0.7)',
-                                                '&:hover': {
-                                                    color: 'rgb(74, 222, 128)',
-                                                    backgroundColor: 'rgba(74, 222, 128, 0.1)'
-                                                }
-                                            }}>
-                                            <EditIcon fontSize="small" />
-                                        </IconButton>
-
-                                        <IconButton
-                                            size="small"
-                                            sx={{
-                                                color: 'rgba(255, 255, 255, 0.7)',
-                                                ml: 1,
-                                                '&:hover': {
-                                                    color: 'rgb(248, 113, 113)',
-                                                    backgroundColor: 'rgba(248, 113, 113, 0.1)'
-                                                }
-                                            }}>
-                                            <DeleteIcon fontSize="small" />
-                                        </IconButton>
-                                    </TableCell>
-                                </TableRow>
-                            ))
-                        )}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </Paper>
-    );
+           <div  className="m-3">
+           <label htmlFor="category" className=' text- tracking-wider'>Category:</label>
+            <select 
+                    name="category" 
+                    required 
+                    className="w-[200px] sm:w-[200px] md:w-[200px] lg:w-[320px] px-4 py-2 border border-gray-300 bg-neutral-300  rounded-lg  shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
+                    value={productsCreds.category}
+                    onChange={handleChange}
+                    >
+                    <option value="sugar">SUGAR</option>
+                    <option value="starch">STARCH</option>
+                    <option value="special-flour">SPECIAL FLOUR</option>
+                    <option value="flour">FLOUR</option>
+                    <option value="oil">OIL</option>
+                    <option value="margarine">MARGARINE</option>
+                    <option value="lard">LARD</option>
+                    <option value="assorted-items"> ASORTED ITEMS</option>
+                </select>
+           </div>
+            
+            <div className="m-3">
+                <motion.button
+                    type='submit'
+                    className="w-[200px] sm:w-[200px] md:w-[200px] lg:w-[320px] bg-green-500 text-white py-2 rounded-lg text-xl font-semibold shadow-xl active:scale-95 transition-transform duration-200 cursor-pointer"
+                    whileTap={{ scale: 0.9 }}>
+                    {isPending ? 'Creating....': 'Create Products'}                    
+                </motion.button>
+            </div>
+          </form>
+        </Box>
+      </Modal>
+    </div>
+  );
 }

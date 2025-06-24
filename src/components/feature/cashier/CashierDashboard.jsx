@@ -26,18 +26,17 @@ export default function CashierDashboard() {
 
 
   return (
-    <Box sx={{ display: 'flex', minHeight: '100vh', backgroundColor: 'rgb(15, 23, 42)' }}>
+    <Box sx={{ display: 'flex', minHeight: '100vh', backgroundColor : 'oklch(97% 0 0)'}}>
       <Box component="main" sx={{ 
         flexGrow: 1, 
-        p: 3, 
-        backgroundColor: 'rgb(15, 23, 42)',
+        backgroundColor: 'oklch(97% 0 0)',
         overflow: 'auto',
         display: 'flex',
         flexDirection: 'column',
         gap: 3
       }}>
         <AppBar position="static" sx={{ 
-          backgroundColor: 'oklch(0.279 0.041 260.031)', 
+          backgroundColor: 'oklch(87.1% 0.15 154.449)', 
           mb: 3, 
           borderRadius: 1, 
           boxShadow: 'none', 
@@ -49,7 +48,7 @@ export default function CashierDashboard() {
                 flexGrow: 1, 
                 fontWeight: 600, 
                 letterSpacing: '0.05em', 
-                color: 'white', 
+                color: 'oklch(21% 0.006 285.885)', 
                 textAlign: 'center'
               }}>
               CASHIER DASHBOARD
@@ -58,7 +57,7 @@ export default function CashierDashboard() {
         </AppBar>
 
         <TableContainer component={Paper} sx={{
-          backgroundColor: 'rgb(30, 41, 59)',
+          backgroundColor: 'oklch(97% 0 0)',
           border: '1px solid rgba(255, 255, 255, 0.12)',
           borderRadius: 1,
           boxShadow: 'none'
@@ -67,8 +66,8 @@ export default function CashierDashboard() {
             <TableHead>
               <TableRow sx={{
                 '& .MuiTableCell-head': {
-                  backgroundColor: 'rgb(30, 41, 59)',
-                  color: 'rgb(148, 163, 184)',
+                  backgroundColor: 'oklch(92.8% 0.006 264.531)',
+                  color: 'oklch(21.6% 0.006 56.043)',
                   fontWeight: 600,
                   letterSpacing: '0.05em',
                   borderColor: 'rgba(255, 255, 255, 0.12)'
@@ -81,6 +80,7 @@ export default function CashierDashboard() {
                
               </TableRow>
             </TableHead>
+
             <TableBody>
               {customers.map((customer) => (
                 <TableRow
@@ -88,8 +88,8 @@ export default function CashierDashboard() {
                   sx={{ 
                     '&:last-child td, &:last-child th': { border: 0 },
                     '& .MuiTableCell-root': {
-                      borderColor: 'rgba(255, 255, 255, 0.12)',
-                      color: 'rgb(226, 232, 240)'
+                      borderColor: 'oklch(92.3% 0.003 48.717)',
+                      color: 'oklch(21.6% 0.006 56.043)'
                     }
                   }}
                 >
@@ -103,15 +103,8 @@ export default function CashierDashboard() {
                       variant="contained"
                       color="success"
                       size="small"
-                      startIcon={<CheckIcon />}
+                      startIcon={<CheckIcon />}                    
                      
-                      sx={{
-                        textTransform: 'none',
-                        backgroundColor: 'rgba(74, 222, 128, 0.2)',
-                        '&:hover': {
-                          backgroundColor: 'rgba(74, 222, 128, 0.3)'
-                        }
-                      }}
                     >
                       Approve
                     </Button>
@@ -120,13 +113,7 @@ export default function CashierDashboard() {
                       color="error"
                       size="small"
                       startIcon={<CloseIcon />}
-                      sx={{
-                        textTransform: 'none',
-                        backgroundColor: 'rgba(248, 113, 113, 0.2)',
-                        '&:hover': {
-                          backgroundColor: 'rgba(248, 113, 113, 0.3)'
-                        }
-                      }}
+                     
                     >
                       Decline
                     </Button>

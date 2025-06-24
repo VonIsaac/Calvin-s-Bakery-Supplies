@@ -14,12 +14,12 @@ export default function Navar() {
       const handleClose = () => setOpen(false)
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar  position="static" sx={{  backgroundColor: 'oklch(0.279 0.041 260.031)', mb: 3, borderRadius: 1, boxShadow: 'none', border: '1px solid rgba(255, 255, 255, 0.12)'}}>
+      <AppBar  position="static" sx={{ color: 'oklch(21% 0.006 285.885)',  backgroundColor: 'oklch(87.1% 0.15 154.449)', mb: 3, borderRadius: 1, boxShadow: 'none', border: '1px solid rgba(255, 255, 255, 0.12)'}}>
 
         <Toolbar>
          
             <SideBar />
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1,}} className=' text-center tracking-wider uppercase'>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontWeight: 'bold'}} className='  text-left tracking-wider uppercase ' >
               List of Created Cashier Accout's
             </Typography>
           <CashierModal onClick={handleOpen} onClose={handleClose} open ={open} />
