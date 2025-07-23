@@ -1,16 +1,19 @@
 
 
 
-import { motion } from "framer-motion";
-import { Link } from "react-router";
-import { useAuth } from "../../store/AuthProvider";
+
+import { Link } from "react-router-dom";
 import { useState } from "react";
+import { useLogin } from "../../hooks/hooks";
+import { motion } from "framer-motion";
+import { useLocation } from "react-router-dom";
 export default function LoginForm() {
-    const { postLoginMutation } = useAuth();
+    const postLoginMutation = useLogin();
     const [isCredentials, setIsCredentials] = useState({
         email: "",
         password: ""
     });
+
 
     const handleChange = (e) => { // handleChange function to update the state
         setIsCredentials(prev => ({
@@ -23,6 +26,9 @@ export default function LoginForm() {
     const handleLoginCreds = (e) => {
         e.preventDefault(); // prevent the default form submission
         postLoginMutation.mutate(isCredentials);
+        console.log("Login credentials submitted:", isCredentials);
+        
+    
     }
 
   return (

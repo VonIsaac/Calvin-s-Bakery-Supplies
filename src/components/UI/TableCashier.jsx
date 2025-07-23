@@ -11,8 +11,10 @@ import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SnackBar from "./SnackBar";
+import { useGetUser } from "../hooks/hooks";
 
 export default function CashierTable() {
+  useGetUser();
   const [open, setOpen] = useState(false);
 
   const { data } = useQuery({

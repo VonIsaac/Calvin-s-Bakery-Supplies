@@ -1,13 +1,9 @@
 import React from 'react'
 import Header from '../../UI/Header'
-import Footer from '../../UI/Footer'
 import logo from '../../../assets/logo.png';
 import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
-import BaronFlour from '../../../assets/welcomeProduct/Baron All Porpose Flour.jpg'
-import Cake from '../../../assets/welcomeProduct/Cake Emulsifier 4kgs.jpg'
-import Freeto from '../../../assets/welcomeProduct/FL40- Freeto Lard 40kg.jpg'
-import Pottasium from '../../../assets/welcomeProduct/Potassium Sorbate.jpg'
+import Footer from '../../UI/Footer';
 export default function WelcomePage() {
   return (
     <>
@@ -62,111 +58,117 @@ export default function WelcomePage() {
       </section>
 
             {/* Products Section */}
-        <div className="bg-neutral-100 py-16">
-            <div className="container mx-auto px-6">
-                <h2 className="text-3xl font-bold text-stone-900 text-center mb-12">Featured Products</h2>
-                
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                {/* Product Card 1 */}
-                <div 
-                    className="bg-white rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-1"
-                    style={{ border: 'none' }}
-                >
-                    <div 
-                    className="h-48 flex items-center justify-center p-4"
-                    style={{ backgroundColor: 'white' }}
-                    >
-                    <img 
-                        src={Cake} 
-                        alt="cake" 
-                        className="max-h-full max-w-full object-contain"
-                    />
-                    </div>
-                    <div className="p-6">
-                    <h3 className="text-xl font-bold text-stone-900 mb-2">Cake Emulsifier 4kgs</h3>
-                    <p className=" mb-4 text-stone-900">
-                        Ideal for commercial baking, ensuring soft, moist, and well-structured cakes with a smooth consistency.
-                    </p>
-                    <div className="flex justify-between items-center">
-                        <span className="text-orange-500 font-bold text-lg">₱1,242.14</span>
-                    </div>
-                    </div>
-                </div>
-
-                {/* Product Card 2 */}
-                <div 
-                    className="bg-white rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-1"
-                    style={{ border: 'none' }}
-                >
-                    <div 
-                    className="h-48 flex items-center justify-center p-4"
-                    style={{ backgroundColor: 'white' }}
-                    >
-                    <img 
-                        src={Pottasium} 
-                        alt="pottasium" 
-                        className="max-h-full max-w-full object-contain"
-                    />
-                    </div>
-                    <div className="p-6">
-                    <h3 className="text-xl font-bold text-stone-900 mb-2">Potassium Sorbate</h3>
-                    <p className=" mb-4 text-stone-900">A high-quality preservative used to extend the shelf life of food</p>
-                    <div className="flex justify-between items-center">
-                        <span className="text-orange-500 font-bold text-lg">₱92</span>
-                    </div>
-                    </div>
-                </div>
-
-                {/* Product Card 3 */}
-                <div 
-                    className="bg-white rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-1"
-                    style={{ border: 'none' }}
-                >
-                    <div 
-                    className="h-48 flex items-center justify-center p-4"
-                    style={{ backgroundColor: 'white' }}
-                    >
-                    <img 
-                        src={Freeto} 
-                        alt="freeto" 
-                        className="max-h-full max-w-full object-contain"
-                    />
-                    </div>
-                    <div className="p-6">
-                    <h3 className="text-xl font-bold text-stone-900 mb-2">FL40- Freeto Lard 40kg</h3>
-                    <p className=" mb-4 text-stone-900">Made from high-quality lard, ensuring a premium and reliable product.</p>
-                    <div className="flex justify-between items-center">
-                        <span className="text-orange-500 font-bold text-lg">₱3,500</span>
-                    </div>
-                    </div>
-                </div>
-
-                {/* Product Card 4 */}
-                <div 
-                    className="bg-white rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-1"
-                    style={{ border: 'none' }}
-                >
-                    <div 
-                    className="h-48 flex items-center justify-center p-4"
-                    style={{ backgroundColor: 'white' }}
-                    >
-                    <img 
-                        src={BaronFlour} 
-                        alt="Baron" 
-                        className="max-h-full max-w-full object-contain"
-                    />
-                    </div>
-                    <div className="p-6">
-                    <h3 className="text-xl font-bold text-stone-900 mb-2">Baron All Purpose Flour</h3>
-                    <p className=" mb-4 text-stone-900">A versatile, high-quality flour suitable for a wide range of baking</p>
-                    <div className="flex justify-between items-center">
-                        <span className="text-orange-500 font-bold text-lg">₱1,750</span>
-                    </div>
-                    </div>
-                </div>
-                </div>
-            </div>
-        </div>
+        <div className='bg-neutral-100 min-h-screen py-8 px-4 sm:px-6 lg:px-8'>
+               <section className='max-w-7xl mx-auto'>
+               <h1 className='text-3xl font-bold text-stone-900 mb-8 text-center'>Our Products</h1>
+       
+               <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+                 {/* Starch Card */}
+                 <div className='flex justify-center'>
+                   <Link to= '/landing-page-category/starch' className="flex flex-col w-full  border border-none rounded-lg shadow  border-gray-700 bg-orange-400 hover:bg-orange-500">
+                     <img className="object-cover w-full h-48 rounded-t-lg" src="src/assets/starch.jpg" alt="starch" />
+                     <div className="p-4">
+                       <h5  className="mb-2 text-xl font-bold tracking-tight text-gray-900 ">Starch</h5>
+                       <p className="font-normal  dark:text-gray-400 text-stone-100">
+                         Offering a wide range of high-quality starch products, including cornstarch and cassava starch, perfect for baking, cooking, and food processing.
+                       </p>
+                     </div>
+                   </Link>
+                 </div>
+       
+                 {/* Assorted Items Card */}
+                 <div className='flex justify-center'>
+                   <Link to='/landing-page-category/assorted-items'  className="flex flex-col w-full  border border-none rounded-lg shadow  border-gray-700 bg-orange-400 hover:bg-orange-500">
+                     <img className="object-cover w-full h-48 rounded-t-lg" src="src/assets/assorted-items.jpg" alt="assorted" />
+                     <div className="p-4">
+                       <h5   className="mb-2 text-xl font-bold tracking-tight text-gray-900 ">Assorted Items</h5>
+                       <p className="font-normal  dark:text-gray-400 text-stone-100">
+                         A diverse selection of high-quality baking and cooking essentials, including flours, sugars, oils, starches, and other specialty ingredients.
+                       </p>
+                     </div>
+                   </Link>
+                 </div>
+       
+                 {/* Flour Card */}
+                 <div className='flex justify-center'>
+                   <Link to='/landing-page-category/flour'  className="flex flex-col w-full  border border-none rounded-lg shadow  border-gray-700 bg-orange-400 hover:bg-orange-500">
+                     <img className="object-cover w-full h-48 rounded-t-lg" src="src/assets/Flours.jpg" alt="flour" />
+                     <div className="p-4">
+                       <h5  className="mb-2 text-xl font-bold tracking-tight text-gray-900 ">Flour</h5>
+                       <p  className="font-normal  dark:text-gray-400 text-stone-100">
+                         Providing high-quality flour varieties for all baking and cooking needs. From all-purpose and bread flour to specialty and premium blends.
+                       </p>
+                     </div>
+                   </Link>
+                 </div>
+       
+                 {/* Special Flour Card */}
+                 <div className='flex justify-center'>
+                   <Link to='/landing-page-category/special-flour' className="flex flex-col w-full  border border-none rounded-lg shadow  border-gray-700 bg-orange-400 hover:bg-orange-500">
+                     <img className="object-cover w-full h-48 rounded-t-lg" src="src/assets/special-flour.jpg" alt="special" />
+                     <div className="p-4">
+                       <h5  className="mb-2 text-xl font-bold tracking-tight text-gray-900 ">Special Flour</h5>
+                       <p  className="font-normal  dark:text-gray-400 text-stone-100">
+                         A premium selection of high-quality specialty flours, perfect for baking bread, pastries, cakes, and other gourmet creations.
+                       </p>
+                     </div>
+                   </Link>
+                 </div>
+       
+                 {/* Sugar Card */}
+                 <div className='flex justify-center'>
+                   <Link to='/landing-page-category/sugar'className="flex flex-col w-full  border border-none rounded-lg shadow hover:bg-gray-100 border-gray-700 bg-orange-400 hover:bg-orange-500">
+                     <img className="object-cover w-full h-48 rounded-t-lg" src="src/assets/sugar.jpg" alt="sugar" />
+                     <div className="p-4">
+                       <h5  className="mb-2 text-xl font-bold tracking-tight text-gray-900 ">Sugar</h5>
+                       <p  className="font-normal  dark:text-gray-400 text-stone-100" >
+                         Offering a wide range of high-quality sugars, from refined and washed sugar to specialty varieties.
+                       </p>
+                     </div>
+                   </Link>
+                 </div>
+       
+                 {/* Lard Card */}
+                 <div className='flex justify-center'>
+                   <Link to='/landing-page-category/lard'className="flex flex-col w-full  border border-none rounded-lg shadow hover:bg-gray-100 border-gray-700 bg-orange-400 hover:bg-orange-500">
+                     <img className="object-cover w-full h-48 rounded-t-lg" src="src/assets/lard.jpg" alt="lard" />
+                     <div className="p-4">
+                       <h5  className="mb-2 text-xl font-bold tracking-tight text-gray-900 ">Lard</h5>
+                       <p  className="font-normal  dark:text-gray-400 text-stone-100">
+                         High-quality lard perfect for baking, frying, and cooking. Ideal for creating flaky pastries, rich doughs.
+                       </p>
+                     </div>
+                   </Link>
+                 </div>
+       
+                 {/* Margarine Card */}
+                 <div className='flex justify-center'>
+                   <Link to='/landing-page-category/margarine'className="flex flex-col w-full  border border-none rounded-lg shadow hover:bg-gray-100 border-gray-700 bg-orange-400 hover:bg-orange-500">
+                     <img className="object-cover w-full h-48 rounded-t-lg" src="src/assets/margarine.jpg" alt="margarine" />
+                     <div className="p-4">
+                       <h5  className="mb-2 text-xl font-bold tracking-tight text-gray-900 ">Margarine</h5>
+                       <p className="font-normal text-stone-100">
+                         A premium-quality margarine perfect for baking, cooking, and spreading. Ideal for creating smooth textures in pastries, cakes, and doughs.
+                       </p>
+                     </div>
+                   </Link>
+                 </div>
+       
+                 {/* Cooking Oil Card */}
+                 <div className='flex justify-center'>
+                   <Link to='/landing-page-category/oil'className="flex flex-col w-full  border border-none rounded-lg shadow hover:bg-gray-100 border-gray-700 bg-orange-400 hover:bg-orange-500">
+                     <img className="object-cover w-full h-48 rounded-t-lg" src="src/assets/oil.jpg" alt="oil" />
+                     <div className="p-4">
+                       <h5  className="mb-2 text-xl font-bold tracking-tight text-gray-900 ">Cooking Oil</h5>
+                       <p className="font-normal text-stone-100">
+                         A range of high-quality cooking oils perfect for frying, sautéing, and general food preparation.
+                       </p>
+                     </div>
+                   </Link>
+                 </div>
+               </div>
+             </section>
+           </div>
       <Footer>
         <img src={logo} className="h-8" alt="Calvin's Bakery Logo" />
       </Footer>

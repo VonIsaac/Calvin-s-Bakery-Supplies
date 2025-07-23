@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
-import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useGetUser } from '../../hooks/hooks';
+import { checkout, queryClient } from '../../../utils/http';
+import swal from 'sweetalert';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { getCart } from '../../../utils/http';
 
 const style = {
   position: 'absolute',
@@ -19,82 +23,118 @@ const style = {
 };
 
 export default function Checkout() {
+  useGetUser();
   const [open, setOpen] = useState(false);
+  const [form, setForm] = useState({
+    name: '',
+    phoneNumber: '',
+    address: '',
+    pickupDate: '',
+    deliveryMode: ''
+  });
 
-  const handleOpen = () => {
-    setOpen(true)
+  const today = new Date().toISOString().split("T")[0];
+
+  const { data: cartItems = [] } = useQuery({
+    queryKey: ['cart'],
+    queryFn: getCart
+  });
+
+  const mutation = useMutation({
+    mutationFn: ({ name, address, phoneNumber, pickupDate, deliveryMode }) =>
+      checkout(name, address, phoneNumber, pickupDate, deliveryMode),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['cart']);
+      swal("Success", "Checkout completed successfully!", "success");
+      setOpen(false);
+    },
+    onError: (error) => {
+      console.log(error);
+      swal("Error", error.message || "Checkout failed", "error");
+    }
+  });
+
+  const handleChange = (e) => {
+    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleClose = () => {
-    setOpen(false)
-  }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    mutation.mutate(form);
+  };
 
-  const today = new Date().toISOString().split("T")[0]; // get the current only date did not click the past mont and date
+  const isCartEmpty = cartItems.length === 0;
 
   return (
     <>
       <div>
-      <Button 
-          variant="contained" 
-          fullWidth  
-          size="large" 
-          onClick={handleOpen}
+        <Button
+          variant="contained"
+          fullWidth
+          size="large"
+          onClick={() => setOpen(true)}
+          disabled={isCartEmpty}
           sx={{
-          backgroundColor: '#f97316', // Tailwind's bg-orange-500
-          '&:hover': { backgroundColor: '#ea580c' }, // Tailwind's bg-orange-600 for hover
-          py: 1.5, 
-          fontWeight: 600
-        }}>
-        CHECKOUT ALL
-      </Button>
+            backgroundColor: isCartEmpty ? '#ccc' : '#f97316',
+            '&:hover': { backgroundColor: isCartEmpty ? '#ccc' : '#ea580c' },
+            py: 1.5,
+            fontWeight: 600
+          }}
+        >
+          {isCartEmpty ? 'NO CART TO CHECKOUT' : 'CHECKOUT ALL'}
+        </Button>
 
         <Modal
           open={open}
-          onClose={handleClose}
+          onClose={() => setOpen(false)}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
-            <form>
+            <form onSubmit={handleSubmit}>
               <h1 className='text-center text-2xl font-bold tracking-wider uppercase text-stone-400'>
-                FILL OUT 
+                FILL OUT
               </h1>
               <p className='text-center text-sm font-bold tracking-wider mt-1.5 text-stone-500'>
                 Fill out the form first before check out all the products
               </p>
+
               <div className="m-3">
-                <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name:</label>
-                <input type="text" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='(eg:John)' required />
+                <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name:</label>
+                <input type="text" name="name" id="name" value={form.name} onChange={handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" placeholder="(eg: Juan Dela Cruz)" required />
               </div>
 
               <div className="m-3">
-                <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone number:</label>
-                <input type="number" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="+6392.." pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" required />
+                <label htmlFor="phoneNumber" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone number:</label>
+                <input type="tel" name="phoneNumber" id="phoneNumber" value={form.phoneNumber} onChange={handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" placeholder="+63912..." required />
               </div>
 
               <div className="m-3">
-                <label for="address" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address:</label>
-                <input type="text" id="address" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='(eg:Purok Street...)' required />
+                <label htmlFor="address" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address:</label>
+                <input type="text" name="address" id="address" value={form.address} onChange={handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" placeholder="(eg: 123 Main St, Bustos Palengke)" required />
               </div>
 
-              <div className="m-3">   
-                <label for="date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date:</label>
-                <input 
-                  type="date" 
-                  id="date"
-                  min={today}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  required
-                />
+              <div className="m-3">
+                <label htmlFor="pickupDate" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date:</label>
+                <input type="date" name="pickupDate" id="pickupDate" value={form.pickupDate} onChange={handleChange} min={today} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" required />
               </div>
-            
+
+              <div className="m-3">
+                <label htmlFor="deliveryMode" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Delivery Mode:</label>
+                <select name="deliveryMode" id="deliveryMode" value={form.deliveryMode} onChange={handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" required>
+                  <option value="">Select delivery mode</option>
+                  <option value="pickup">Pickup</option>
+                  <option value="delivery">Delivery</option>
+                </select>
+              </div>
+
               <div className="m-3">
                 <motion.button
-                  type='submit'
-                  className="w-[200px] sm:w-[200px] md:w-[200px] lg:w-[320px] bg-green-500 text-white py-2 rounded-lg text-xl font-semibold shadow-xl active:scale-95 transition-transform duration-200 cursor-pointer"
+                  type="submit"
+                  className="w-full cursor-pointer bg-green-500 text-white py-2 rounded-lg text-xl font-semibold shadow-xl active:scale-95 transition-transform duration-200"
                   whileTap={{ scale: 0.9 }}
                 >
-                  CHECK OUT                  
+                  CHECK OUT
                 </motion.button>
               </div>
             </form>
@@ -102,5 +142,5 @@ export default function Checkout() {
         </Modal>
       </div>
     </>
-  )
+  );
 }

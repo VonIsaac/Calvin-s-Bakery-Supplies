@@ -1,8 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { QueryClientProvider } from '@tanstack/react-query'
 import {queryClient} from './utils/http'
-import { AuthProvider } from './components/store/AuthProvider'
-
 import LoginForm from './components/feature/login/Login'
 import SignUp from './components/feature/signup/SignUp'
 import UserProduct from './components/feature/user-products/UserProducts'
@@ -14,12 +12,22 @@ import AllProducts from './components/feature/user-products/AllProducts'
 import CashierDashboard from './components/feature/cashier/CashierDashboard'
 import Cart from './components/feature/user-products/Cart'
 import WelcomePage from './components/feature/user-products/WelcomePage'
+import UserProfile from './components/feature/User.jsx/UserProfile'
+import LandingPageCategory from './components/ReusableComponents/LandingPageCategory'
+import CashierProducts from './components/feature/cashier/CashierProducts'
+import CashierProductsCategory from './components/feature/cashier/CashierProductsCategory'
+import OrderHistory from './components/feature/user-products/OrderHistory'
+
 function App() {
   
    const router = createBrowserRouter([
     {
       path: '/',
       element: <WelcomePage/>,
+    },
+    {
+      path: '/landing-page-category/:category',
+      element: <LandingPageCategory />
     },
     {
       path: '/login',
@@ -29,33 +37,20 @@ function App() {
        path: '/signup',
         element: <SignUp />,
     },
-
-    {
-      path: '/admin-dashboard',
-      element: <Analytics />,
-    },
-    {
-      path: '/create-cashier',
-      element: <CreateCashierAcc />,
-    },
-
-    {
-      path: '/admin-products',
-      element: <AdminProducts />,
-    },
-
-      
+    // user routes
     {
       path: '/user-products',
-      element: <UserProduct />,
-    },
-    {
-      path: '/user-products/category/:category',
-      element: <Category />
+      element: (
+          <UserProduct />
+      ),
     },
     {
       path: '/all-products',
       element: <AllProducts />
+    },
+    {
+      path: '/user-products/category/:category',
+      element: <Category />
     },
 
     {
@@ -63,8 +58,33 @@ function App() {
       element: <Cart />
     },
 
-   
+    {
+      path: '/user-products/order-history',
+      element: <OrderHistory />
+    },
+    // admin routes
+    {
+      path: '/admin-dashboard',
+      element: <Analytics />,
+    },
 
+    {
+      path: '/admin-products',
+      element: <AdminProducts />,
+    },
+    {
+      path: '/create-cashier',
+      element: <CreateCashierAcc />,
+    },
+    // cashier routes
+    {
+      path: '/cashier-products',
+      element: <CashierProducts />
+    },
+    {
+      path: '/cashier-products/category/:category',
+      element: <CashierProductsCategory />
+    },
     {
       path: '/cashier',
       element: <CashierDashboard />
@@ -75,9 +95,7 @@ function App() {
     <>
       <div className=''>
         <QueryClientProvider client={queryClient}>
-          <AuthProvider>
             <RouterProvider router={router} />
-          </AuthProvider>
         </QueryClientProvider>
       </div>
     </>
