@@ -2,7 +2,6 @@ import {QueryClient} from '@tanstack/react-query'
 export const queryClient = new QueryClient()
 import API from './API'
 import Cookies from "js-cookie";
-import {jwtDecode} from 'jwt-decode'
 
 const postSignUp = async (data) => {
     try{
@@ -25,14 +24,12 @@ const postSignUp = async (data) => {
 const postLogin = async (credentials) => {
     try{
         const response = await API.post( '/user/login', credentials);
-        console.log(response);
-        const {token, user} = response.data;
+        const {token} = response.data;
+        console.log("Token:", token);
         Cookies.set("token", token, {
             expires: 1 / 24, // Expires in 1 hour, secure for HTTPS, and sameSite set to Strict
             sameSite: "Strict" // Prevents CSRF attacks
          });
-        // set the user in local storage
-        localStorage.setItem("user", JSON.stringify(user)); // Store user data in local storage
         return response.data;
 
     }catch(err){ 
@@ -136,13 +133,112 @@ const getUser = async ({ token }) => {
         },
       });
       console.log("User data:", response.data);
-      return response.data.data; // Extract the 'data' field directly if needed
+      return response.data; // Extract the 'data' field directly if needed
     } catch (err) {
       console.error("Error fetching user data:", err);
       throw err;
     }
   };
 
+  const postLogout = async () => {
+    try{
+        const response = await API.post('/user/logout')
+        console.log(response)
+        Cookies.remove('token'); // Remove from client-side (if stored)
+       
+
+    }catch(err){
+        console.log(err )
+    }
+}
+
+
+const addToCart = async(productId, quantity, priceType) => {
+    try{
+        const response = await API.post('/product/post-cart', {
+            productId,
+            quantity,
+            priceType
+        })  
+        console.log(response);
+        return response.data.cart;
+    }catch(err){
+        console.log(err);
+        throw new Error("Failed to add to cart");
+    }
+}
+
+const getCart = async () => {
+    try{
+        const response = await API.get('/product/get-cart');
+        console.log(response);
+        return response.data.items;
+    }catch(err){
+        console.log(err);
+        throw new Error("Failed to get cart");
+    }
+}
+
+const removeFromCart = async (productId) => {
+    try{
+        const response = await API.post('/product/remove-from-cart', { productId });
+        console.log(response);
+        return response.data.cart; 
+    }catch(err){
+        console.log(err);
+        throw new Error("Failed to remove item from cart");
+    }
+}
+
+const checkout = async(name, address, phoneNumber, pickupDate, deliveryMode) => {
+    try{
+        const response = await API.post('/product/post-checkout', {
+            name,
+            address,
+            phoneNumber,
+            pickupDate,
+            deliveryMode
+        });
+        console.log(response);
+        return response.data.order
+    }catch(err){
+        console.log(err);
+        throw new Error("Checkout failed");
+    }
+}
+
+const getOrders = async () => {
+   try{
+    const response = await API.get('/product/get-order');
+    console.log(response);
+    return response.data.orders; 
+   }catch(err){
+    console.log(err);
+    throw new Error("Failed to get orders");
+   }
+}
+
+const getSalesAnalytics = async () => {
+    try {
+        const response = await API.get('/product/category-sales');
+        console.log(response);
+        return response.data; 
+    } catch (err) {
+        console.error("Error fetching category sales analytics:", err);
+        throw new Error("Failed to fetch category sales analytics");
+    }
+}
+
+const getCustomerOrdersDetails = async () => {
+    try {
+        const response = await API.get('/product/get-user-orders');
+        console.log(response); // optional for debugging
+        return response.data.customerInfos; // ✅ correct key based on your backend
+    } catch (err) {
+        console.error("Error fetching customer orders details:", err);
+        throw new Error("Failed to fetch customer orders details");
+    }
+};
 
 export{ 
     postSignUp,
@@ -153,5 +249,13 @@ export{
     postProducts,
     getProductsByCategory,
     getProducts,
-    getUser
+    getUser,
+    postLogout,
+    addToCart,
+    getCart,
+    removeFromCart,
+    checkout,
+    getOrders,
+   getSalesAnalytics,
+   getCustomerOrdersDetails
 }

@@ -179,8 +179,7 @@ exports.getMe = async (req, res) => { // ths function is for getting the user an
                 username: user.username,
                 email: user.email,
                 role: user.role,
-                createdAt: user.createdAt,
-                updatedAt: user.updatedAt
+                
             },
             message: "User data fetched successfully"
         });
@@ -213,4 +212,9 @@ exports.deleteCashierAccount = async (req, res) => {
         console.log(err);
         return res.status(500).json({error: 'Delete Cashier Account Failed!'});
     }
+}
+
+exports.logout = (req, res) => {
+    res.clearCookie("token", { httpOnly: true, secure: true, sameSite: "None" });
+    res.status(200).json({ message: 'Logged out successfully' });
 }

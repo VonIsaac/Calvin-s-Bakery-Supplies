@@ -2,29 +2,37 @@ import React from 'react'
 import Header from '../../UI/Header';
 import Footer from '../../UI/Footer';
 import {  Link } from 'react-router-dom';
+import ProfileDropdown from '../../ReusableComponents/ProfileDropdown';
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+//import { useAuthStore } from '../../store/useAuth';
+import { useGetUser } from '../../hooks/hooks';
 
-import { Box, Container, Typography, Button, Grid} from '@mui/material';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 export default function UserProduct() {
  
-  //const theme = useTheme();
-  //const isLargeScreen = useMediaQuery(theme.breakpoints.up('lg'));
+  //const {user} = useAuthStore(state => state.user);
 
-  
+  useGetUser(); 
   return (
     <>
     <main>
       <Header>
+        <div>
         <img src="src/assets/logo.png" alt="logo" className='w-[180px]'/>
+        </div>
+        <div className=' flex items-end justify-end w-full  '>
+          <ProfileDropdown>
+              <PersonOutlineOutlinedIcon fontSize='large' />
+          </ProfileDropdown>
+        </div>
       </Header>
       <div>
         <section  className=" bg-neutral-100  dark:bg-gray-900 min-h-[75vh] flex items-center"> {/* Changed to min-h-[70vh] and flex */}
             <div className="grid max-w-screen-xl px-4 py-16 mx-auto lg:gap-8 xl:gap-0 lg:py-24 lg:grid-cols-12">
               <div className="mr-auto place-self-center lg:col-span-7">
-                <h1 className="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl text-stone-900">
+                <h1 className="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl text-stone-200">
                   Calvin&apos;s Bakery Supplies
                 </h1>
-                <p className="max-w-2xl mb-6 font-light  lg:mb-8 md:text-lg lg:text-xl text-stone-800">
+                <p className="max-w-2xl mb-6 font-light  lg:mb-8 md:text-lg lg:text-xl text-stone-100">
                   Your trusted source for high-quality baking ingredients and essentials. Offering a wide range of flours, 
                   sugars, oils, and specialty products to meet the needs of home bakers and commercial bakeries.
                 </p>

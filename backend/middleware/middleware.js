@@ -6,7 +6,7 @@ dotenv.config();
 
 // creating a middleware function to check if the user is authenticated
 
-const authenticateToken = async (req, res, next) => {
+const authenticate = async (req, res, next) => {
   const authHeader = req.header("Authorization");
   console.log("Authorization Header:", authHeader);
   
@@ -46,4 +46,4 @@ const authorize = (...requiredRoles) => {
   };
 };
 
-module.exports = { authenticateToken, authorize }; //Export the middleware functions
+module.exports = { authenticate, authorize }; //Export the middleware functions

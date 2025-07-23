@@ -16,15 +16,31 @@ const ProductSchema = new Schema({
         type: String,
         required: true
     },
+    expirationDate:{
+        type: Date,
+        required: true
+    },
     price:{
         type: Number,
         required: true
     },
-
+    halfPrice: {
+        type: Number,
+        
+    },
+    retailPrice:{
+        type: Number,
+        
+    },
     category:{
         type: String,
         required: true
     },
+    stock:{
+        type: Number,
+        required: true,
+        min: 0
+    }
 
     
 });
