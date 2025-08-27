@@ -1,6 +1,8 @@
 const Product = require('../models/Product');
 const Cart = require('../models/Cart');
 const Order = require('../models/Order');
+const CustomerQueue = require('../models/CustomerQueue')
+const {sendSmsMessage} = require('../utils/smsMessage')
 
 exports.getAllProducts = async (req, res) => {
     try {
@@ -26,6 +28,27 @@ exports.getAllProducts = async (req, res) => {
         return res.status(500).json({ error: "Failed to get products. Please try again." });
     }
 };
+
+
+exports.deleteProduct = async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      const deleted = await Product.findByIdAndDelete(id);
+  
+      if (!deleted) {
+        return res.status(404).json({ error: 'Product not found.' });
+      }
+  
+      return res.status(200).json({
+        message: 'Product deleted successfully',
+        product: deleted,
+      });
+    } catch (err) {
+      console.error('Error deleting product:', err);
+      return res.status(500).json({ error: 'Failed to delete product. Please try again.' });
+    }
+  };
 
 exports.postAddToCart = async (req, res) => {
     const { productId, quantity, priceType } = req.body;
@@ -160,6 +183,11 @@ exports.postCheckout = async (req, res) => {
 
         await order.save();
 
+        await CustomerQueue.create({
+            orderId: order._id,
+            customerInfo: { name, address, phoneNumber, pickupDate },
+            user: { _id: req.user.id, username: req.user.username, email: req.user.email }
+        });
         const populatedOrder = await Order.findById(order._id)
             .populate('user', 'username email') 
             .populate('items.product');
@@ -201,39 +229,188 @@ exports.getCategorySalesAnalytics = async (req, res) => {
   
       for (const order of orders) {
         for (const item of order.items) {
-          const { category, name } = item.product;
-          if (!categoryMap[category]) categoryMap[category] = {};
-          if (!categoryMap[category][name]) categoryMap[category][name] = 0;
-  
-          categoryMap[category][name] += item.quantity;
+            const product = item.product;
+            if (!product) continue; // skip if product is not found
+
+            const { category, name, images, stock, price, _id } = product;
+            if (!categoryMap[category]) {
+                categoryMap[category] = {};
+            }
+
+            if (!categoryMap[category][name]) {
+                categoryMap[category][name] = {
+                  _id,
+                  name,
+                  images,
+                  stock,
+                  price,
+                  quantitySold: 0
+                };
+            }
+            categoryMap[category][name].quantitySold += item.quantity;
         }
       }
   
       const result = Object.entries(categoryMap).map(([category, itemsMap]) => ({
         category,
-        items: Object.entries(itemsMap).map(([name, quantitySold]) => ({ name, quantitySold }))
-      }));
-  
-      res.json({ message: "Analytics generated", data: result });
+        items: Object.values(itemsMap)
+        .filter(p => p.quantitySold >= 3)
+        .sort((a, b) => b.quantitySold - a.quantitySold)
+    }));
+
+    const filteredResult = result.filter(cat => cat.items.length > 0);
+
+      res.json({ message: "Analytics generated", data: filteredResult });
     } catch (err) {
       res.status(500).json({ message: "Failed to fetch analytics", error: err.message });
     }
-  };
+};
 
   exports.getCustomerOrdersDetails = async (req, res) => {
     try {
-        // Only return customerInfo field
-        const customerInfos = await Order.find({}, 'customerInfo');
+      const orders = await Order.find().populate('user', 'username email').populate('items.product').sort({ createdAt: 1 }); ;          
+  
+      res.status(200).json({
+        message: 'Orders retrieved successfully',
+        orders
+      });
+    } catch (err) {
+      console.error("Error fetching customer orders:", err);
+      res.status(500).json({
+        message: "Failed to fetch customer orders",
+        error: err.message
+      });
+    }
+  };
+
+exports.getCustomerInfo = async (req, res ) => {
+    try{
+
+       const queue = await CustomerQueue.find().populate({ path: "orderId",
+                populate: {
+                    path: "items.product",  
+                    model: "product",       
+                }}).populate("user._id").sort({ createdAt: 1 }); 
+        if(!queue){
+            return res.status(404).json({ message: "Customer not found" });
+        }
 
         res.status(200).json({
-            message: 'Customer info retrieved successfully',
-            customerInfos
+            message: "Customer info retrieved successfully",
+            customer: queue
         });
-    } catch (err) {
+    }catch(err){
         console.error("Error fetching customer info:", err);
         res.status(500).json({
             message: "Failed to fetch customer info",
             error: err.message
         });
     }
+}
+exports.clearCustomerInfo = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // find by orderId._id instead of CustomerQueue._id
+    const updateOrder = await CustomerQueue.findByIdAndDelete(id);
+
+    if (!updateOrder) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    res.status(200).json({
+      message: "Customer info cleared successfully",
+      updateOrder,
+    });
+  } catch (err) {
+    console.error("Error clearing customer info:", err);
+    res.status(500).json({
+      message: "Failed to clear customer info",
+      error: err.message,
+    });
+  }
+};
+
+exports.updateOrderStatus = async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  try {
+    const customerOrder = await CustomerQueue.findById(id)
+      .populate({
+        path: "orderId",
+        populate: {
+          path: "items.product",
+          model: "product",
+        },
+      });
+
+    if (!customerOrder) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    const order = customerOrder.orderId;
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    // Determine delivery mode
+    const deliveryMode = order.deliveryMode === "delivery" ? "Delivery" : "Pickup";
+
+    let smsText = "";
+    if (status === "approved") {
+      const productDetails = order.items.map((item) =>
+            `- ${item.product.name} (${item.quantity} pcs @ ₱${item.product.retailPrice || item.product.price || item.halfPrice})`
+        ).join("\n");
+      smsText = 
+      `
+        Hi ${customerOrder.customerInfo.name}, this is from Calvins Bakery Supplies your order has been approved! 📦
+        Mode: ${deliveryMode}
+        Address: ${customerOrder.customerInfo.address}
+        Products:${productDetails}
+        💰 Total: ₱${order.totalAmount}
+        📅 ${deliveryMode} Date: ${new Date(customerOrder.customerInfo.pickupDate).toLocaleDateString()}
+      `;
+    } else if (status === "declined") {
+      smsText =
+      `
+        ❌ Hello ${customerOrder.customerInfo.name},
+            We’re sorry, but your order could not be processed and has been declined.
+            Mode: ${deliveryMode} 
+            🛒 Order Total: ₱${order.totalAmount}  
+            📍 Address: ${customerOrder.customerInfo.address}  
+            📅 ${deliveryMode} Date: ${new Date(customerOrder.customerInfo.pickupDate).toLocaleDateString()}  
+            Please reach out to us if you’d like to reorder or need further assistance.  
+            Thank you for choosing us!
+
+      `;
+    } else {
+      return res.status(400).json({ message: "Invalid status" });
+    }
+
+    // format number helper
+    function formatPhoneNumber(phoneNumber) {
+      if (phoneNumber.startsWith("0")) {
+        return "+63" + phoneNumber.slice(1);
+      }
+      return phoneNumber;
+    }
+    const formattedNumber = formatPhoneNumber(customerOrder.customerInfo.phoneNumber);
+
+    await sendSmsMessage(smsText, [formattedNumber]);
+
+    customerOrder.status = status;
+    await customerOrder.save();
+
+    res.status(200).json({
+      message: `Order ${status} and SMS sent successfully`,
+      customerOrder,
+    });
+  } catch (err) {
+    console.error("Error updating order status:", err);
+    res.status(500).json({
+      message: "Failed to update order status",
+      error: err.message,
+    });
+  }
 };

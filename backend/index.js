@@ -30,7 +30,7 @@ app.use(express.urlencoded({ extended: false })); // Parses form-urlencoded requ
 app.use(cors({
     origin: 'http://localhost:5173', // Specify the frontend origin
     credentials: true, // Allow cookies and authentication headers
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
 

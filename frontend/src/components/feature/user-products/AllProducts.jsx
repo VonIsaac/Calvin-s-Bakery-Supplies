@@ -1,40 +1,43 @@
-import React, { useState } from "react";
-import Footer from "../../UI/Footer";
-import Header from "../../UI/Header";
-import { useQuery } from "@tanstack/react-query";
-import { getProductsByCategory } from "../../../utils/http";
-import { useParams, Link } from "react-router-dom";
-import logo from '../../../assets/logo.png';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Box, Button, Typography } from '@mui/material';
-import Loading from "../../UI/Loading";
-import { useGetUser } from "../../hooks/hooks";
-import AvailModal from "../../UI/AvailModal";
 
-export default function Category() {
+import logo from '../../../assets/logo.png';
+import Footer from '../../UI/Footer';
+import Header from '../../UI/Header';
+import { useQuery } from '@tanstack/react-query';
+import { getProducts } from '../../../utils/http';
+import { Box, Button, Typography } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Loading from '../../UI/Loading';
+import { Link } from 'react-router-dom';
+import { useGetUser } from '../../hooks/hooks';
+import {useState} from 'react';
+import AvailModal from '../../UI/AvailModal';
+import { isExpired } from '../../../utils/helpers';
+
+export default function AllProducts() {
   useGetUser();
-  const { category } = useParams();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedProduct, setSelectedProduct] = useState(null); // optional
+  
+    const handleOpenModal = (product) => {
+      setSelectedProduct(product); // if you want to use product data later
+      setIsModalOpen(true);
+    };
+  
+    const handleCloseModal = () => {
+      setIsModalOpen(false);
+      setSelectedProduct(null);
+    };
 
   const { data, isLoading } = useQuery({
-    queryKey: ["products", category],
-    queryFn: ({ signal }) => getProductsByCategory(category, { signal }),
+    queryKey: ['products'],
+    queryFn: ({ signal }) => getProducts({ signal }),
   });
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null); // optional
-
-  const handleOpenModal = (product) => {
-    setSelectedProduct(product); // if you want to use product data later
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setSelectedProduct(null);
-  };
 
   if (isLoading) return <Loading />;
 
+  const filteredProducts = (data?.products || []).filter(
+    (product) => !isExpired(product.expirationDate)
+  );
 
   return (
     <>
@@ -62,7 +65,7 @@ export default function Category() {
                 textTransform: 'uppercase',
               }}
             >
-              {category} Products
+              All Products
             </Typography>
 
             <Button
@@ -79,7 +82,7 @@ export default function Category() {
           </Box>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {data?.products.map((product) => (
+            {filteredProducts.map((product) => (
               <div
                 key={product._id}
                 className="text-stone-100 border-none border-gray-200 rounded-lg shadow-sm dark:bg-orange-400 overflow-hidden"
@@ -154,10 +157,7 @@ export default function Category() {
           </div>
         </div>
       </div>
-
-      
-      <AvailModal selectedProduct={selectedProduct} open={isModalOpen} onClose={handleCloseModal} />
-
+        <AvailModal selectedProduct={selectedProduct} open={isModalOpen} onClose={handleCloseModal} />
       <Footer>
         <img src={logo} className="h-8" alt="Calvin's Bakery Logo" />
       </Footer>

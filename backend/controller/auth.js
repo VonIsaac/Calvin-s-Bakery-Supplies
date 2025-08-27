@@ -150,7 +150,8 @@ exports.postCashier = async (req, res) => {
 // getting the cashier account
 exports.getCashierAccount = async (req, res) => {
     try{
-        const getCashier = await User.find({role: 'cashier'}) // find all the cashier accounts
+        const sortOrder = req.query.sort === "desc" ? -1 : 1; // default asc
+        const getCashier = await User.find({role: 'cashier'}) .sort({ username: sortOrder });
         console.log(getCashier);
         res.status(200).json({
             message: 'Cashier accounts fetched successfully',

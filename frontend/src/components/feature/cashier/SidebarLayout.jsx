@@ -109,7 +109,7 @@ const SidebarLayout = ({ children }) => {
               <ListItemText primary="Dashboard" />
             </ListItem>
 
-            <ListItem button component={Link} to="/cashier" onClick={toggleDrawer}>
+            <ListItem button component={Link} to="/cashier-products" onClick={toggleDrawer}>
               <ListItemIcon>
                 <ShoppingCartIcon sx={{ color: 'oklch(21.6% 0.006 56.043)' }} />
               </ListItemIcon>

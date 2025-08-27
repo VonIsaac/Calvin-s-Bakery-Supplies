@@ -233,11 +233,66 @@ const getCustomerOrdersDetails = async () => {
     try {
         const response = await API.get('/product/get-user-orders');
         console.log(response); // optional for debugging
-        return response.data.customerInfos; // ✅ correct key based on your backend
+        return response.data.orders;
     } catch (err) {
         console.error("Error fetching customer orders details:", err);
         throw new Error("Failed to fetch customer orders details");
     }
+};
+
+const deleteProduct = async (id) => {
+    try {
+        const response = await API.delete(`/product/delete-product/${id}`);
+        console.log(response);
+        return response.data; 
+    } catch (err) {
+        console.error("Error deleting product:", err);
+        throw new Error("Failed to delete product");
+    }
+}
+
+const editProduct = async (id, products) => {
+    try{
+        const response = await API.put(`/admin/update-product/${id}`, products);
+        console.log(response);
+        return response.data;
+    }catch(err){
+        console.error("Error editing product:", err);
+        throw new Error("Failed to edit product");
+    }
+}
+
+const getCustomerInfo = async () => {
+    try {
+        const response = await API.get('/product/get-customer-info');
+        console.log(response); 
+        return response.data.customer;
+    } catch (err) {
+        console.error("Error fetching customer info:", err);
+        throw new Error("Failed to fetch customer info");
+    }
+};
+
+const clearCustomerInfo = async (id) => {
+    try {
+        const response = await API.patch(`/product/clear-customer-info/${id}`);
+        console.log(response);
+        return response.data;
+    } catch (err) {
+        console.error("Error clearing customer info:", err);
+        throw new Error("Failed to clear customer info");
+    }
+}
+
+const getCustomerOrder = async ({ id, status }) => {
+  try {
+    const response = await API.put(`/product/customer-order/${id}/status`, { status });
+    console.log("Sending ID:", id);
+    return response.data.customerOrder;
+  } catch (err) {
+    console.error("Error fetching customer order:", err);
+    throw new Error("Failed to fetch customer order");
+  }
 };
 
 export{ 
@@ -256,6 +311,11 @@ export{
     removeFromCart,
     checkout,
     getOrders,
-   getSalesAnalytics,
-   getCustomerOrdersDetails
+    getSalesAnalytics,
+    getCustomerOrdersDetails,
+    deleteProduct,
+    editProduct,
+    clearCustomerInfo,
+    getCustomerInfo,
+    getCustomerOrder
 }

@@ -10,6 +10,8 @@ import { Box, Button, Typography } from '@mui/material';
 import Loading from "../UI/Loading";
 import Footer from "../UI/Footer";
 import { useNavigate } from "react-router-dom";
+import { formatDateToText } from "../../utils/helpers";
+
 export default function LandingPageCategory() {
   const { category } = useParams(); //  use this to acces routes
   const navigate = useNavigate();
@@ -70,11 +72,7 @@ export default function LandingPageCategory() {
 
                 <p className="mb-2 font-semibold tracking-wider text-black">
                   Expiration Date:{" "}
-                  {new Date(product.expirationDate).toLocaleDateString('en-PH', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  })}
+                  {formatDateToText(product.expirationDate)}
                 </p>
 
                 <p className="mb-3 font-normal  text-black">

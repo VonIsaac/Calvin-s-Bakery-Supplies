@@ -40,3 +40,36 @@ exports.postProduct = async (req, res) => {
             res.status(500).json({ error: "Failed posting Products" });
         }
     }
+
+exports.postUpdateProduct = async (req, res) => {
+   try{
+        const {id} = req.params;
+        const updates = req.body;
+
+        /*if(updates.expirationDate){
+            const expDate = new Date(updates.expirationDate);
+            //check if the expirationDate is a valid date
+            if(expDate <= new Date()){
+                return res.status(400).json({ error: "Expiration date must be in the future" });
+            }
+            updates.expirationDate = expDate
+        }*/
+
+        // Update the product in the database
+        const updateProduct = await Product.findByIdAndUpdate(
+            id,
+            updates,
+            { new: true, runValidators: true }
+        );
+
+        res.status(200).json({
+            message: 'Product updated successfully',
+            product: updateProduct
+        })
+   }catch(err){
+    console.log(err)
+    res.status(500).json({ error: "Failed updating Products" });
+   }
+
+
+}

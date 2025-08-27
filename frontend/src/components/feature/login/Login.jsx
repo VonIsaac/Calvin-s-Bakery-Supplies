@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useLogin } from "../../hooks/hooks";
 import { motion } from "framer-motion";
-import { useLocation } from "react-router-dom";
+
 export default function LoginForm() {
     const postLoginMutation = useLogin();
     const [isCredentials, setIsCredentials] = useState({
