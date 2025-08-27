@@ -27,12 +27,15 @@ app.use((req, res, next) => {
 app.use(express.static(path.join(__dirname, 'client/build')));
 app.use(express.json()); // Parses incoming JSON requests
 app.use(express.urlencoded({ extended: false })); // Parses form-urlencoded request
-app.use(cors({
-    origin: 'http://localhost:5173', // Specify the frontend origin
-    credentials: true, // Allow cookies and authentication headers
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-}));
+if(process.env.NODE_ENV !== 'production'){
+    app.use(cors({
+        origin: 'http://localhost:5173', // Specify the frontend origin
+        credentials: true, // Allow cookies and authentication headers
+        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+        allowedHeaders: ['Content-Type', 'Authorization']
+    }));
+}
+
 
 
 
@@ -42,6 +45,14 @@ app.use('/user', authRoutes);
 app.use('/admin', adminRoutes)
 app.use('/product', productRoutes)
 
+if(process.env.NODE_ENV === 'production'){
+    app.use(express.static(path.join(__dirname,"../frontend/dist")))
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname,"../frontend","dist","index.html"))
+    })
+
+}
 const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {

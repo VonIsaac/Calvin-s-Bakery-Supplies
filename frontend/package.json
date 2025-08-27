@@ -18,6 +18,7 @@
     "@tailwindcss/vite": "^4.0.15",
     "@tanstack/react-query": "^5.69.0",
     "axios": "^1.8.4",
+    "carlvin's-bakery": "file:..",
     "carlvins-bakery": "file:",
     "echarts-for-react": "^3.0.2",
     "framer-motion": "^12.6.0",
